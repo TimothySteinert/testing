@@ -5,7 +5,7 @@ blueprint:
     Useful for ESPHome keypad display logic.
 
   domain: automation
-  source_url: https://github.com/TimothySteinert/ESPAlarmKeypad/blob/main/alarmo_override_state.yaml
+  source_url: https://github.com/TimothySteinert/testing/blob/main/alarmo_override_state.yaml
 
   input:
     input_failed_to_arm:
