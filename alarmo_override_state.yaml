@@ -1,0 +1,48 @@
+blueprint:
+  name: Alarmo Override State Handler
+  description: |
+    Handles Alarmo override states for Failed to Arm and Incorrect PIN using two input_booleans.
+    Useful for ESPHome keypad display logic.
+
+  domain: automation
+  source_url: https://github.com/TimothySteinert/ESPAlarmKeypad/blob/main/alarmo_override_state.yaml
+
+  input:
+    input_failed_to_arm:
+      name: Input Boolean – Failed to Arm
+      selector:
+        entity:
+          domain: input_boolean
+
+    input_incorrect_pin:
+      name: Input Boolean – Incorrect PIN
+      selector:
+        entity:
+          domain: input_boolean
+
+trigger:
+  - platform: event
+    event_type: alarmo_failed_to_arm
+
+action:
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ trigger.event.data.reason == 'invalid_code' }}"
+        sequence:
+          - service: input_boolean.turn_on
+            target:
+              entity_id: !input input_incorrect_pin
+          - delay: "00:00:02"
+          - service: input_boolean.turn_off
+            target:
+              entity_id: !input input_incorrect_pin
+
+    default:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: !input input_failed_to_arm
+      - delay: "00:00:02"
+      - service: input_boolean.turn_off
+        target:
+          entity_id: !input input_failed_to_arm
