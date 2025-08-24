@@ -3,7 +3,7 @@ binary_sensor:
     id: mmwave_sensor
     name: "${friendly_name} mmWave Sensor"
     device_class: motion
-    internal: !lambda return !${expose_mmwave};
+    internal: ${mmwave_internal}
     pin:
       number: GPIO39
       mode: INPUT
