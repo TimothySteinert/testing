@@ -5,7 +5,8 @@ esphome:
   min_version: '2025.7.0'
   project:
     name: $project_name
-    version: $project_version  
+    version: $project_version
+  ignore_strapping_warnings: true  
   on_boot:
     - priority: 800.0
       then:
