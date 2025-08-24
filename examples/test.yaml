@@ -16,7 +16,7 @@ substitutions:
 packages:
   remote_package:
     url: https://github.com/TimothySteinert/testing
-    ref: master
+    ref: master#force1
     refresh: 5min
     files:
 
