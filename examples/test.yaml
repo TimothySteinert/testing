@@ -6,7 +6,9 @@ substitutions:
   
   ####
   # CONFIGURABLE OPTIONS
-  # (nothing here now for connectivity — just pick below)
+  
+  # Exposes the MMWAVE sensor to HA for automations
+  expose_mmwave: "false"   # set to "true" if you want it in HA
 
 #### 
 # PACKAGES
