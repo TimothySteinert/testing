@@ -6,14 +6,14 @@ substitutions:
   
   ####
   # CONFIGURABLE OPTIONS
+  connectivity: ethernet   # change to "wifi" if you want Wi-Fi instead
 
-####
+#### 
 # PACKAGES
 # Each package includes keypad features.
 # Remove or comment out any packages that you do not need or want.
 # If you're developing/installing locally, replace the github package line with the local package include above it.
 packages:
-
   remote_package:
     url: https://github.com/TimothySteinert/testing
     ref: master
@@ -26,6 +26,6 @@ packages:
       - packages/core-esp32.yaml
 
       ####
-      # ETHERNET
-      # Enables ethernet connectivity.
-      - packages/ethernet.yaml
+      # CONNECTIVITY
+      # This selects the right connectivity package based on configurable option. ("ethernet" or "wifi")
+      - packages/${connectivity}.yaml
