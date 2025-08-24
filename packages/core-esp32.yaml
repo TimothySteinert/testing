@@ -22,6 +22,9 @@ esp32:
     type: esp-idf
     version: recommended
 
+logger:
+  level: NONE
+
 text_sensor:
   - platform: template
     name: Device ID
