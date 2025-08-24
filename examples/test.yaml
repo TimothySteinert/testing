@@ -37,3 +37,4 @@ packages:
       ####
       # INPUT
       - packages/tamper.yaml
+      - packages/mmwave.yaml
