@@ -1,1 +1,32 @@
+substitutions:
+  name: hexaone-k1-keypad
+  friendly_name: K1 Keypad
+  project_name: hexaone.k1keypad
+  project_version: "0.1"
+  
+  ####
+  # CONFIGURABLE OPTIONS
+  ethernet_type: RTL8201
 
+####
+# PACKAGES
+# Each package includes keypad features.
+# Remove or comment out any packages that you do not need or want.
+# If you're developing/installing locally, replace the github package line with the local package include above it.
+packages:
+
+  remote_package:
+    url: https://github.com/konnected-io/konnected-esphome
+    ref: master
+    refresh: 5min
+    files:
+
+      ####
+      # CORE
+      # This package is required and sets up core features.
+      - packages/core-esp32.yaml
+
+      ####
+      # ETHERNET
+      # Enables ethernet connectivity.
+      - packages/ethernet.yaml
