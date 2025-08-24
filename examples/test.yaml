@@ -6,7 +6,7 @@ substitutions:
   
   ####
   # CONFIGURABLE OPTIONS
-  connectivity: ethernet   # change to "wifi" if you want Wi-Fi instead
+  # (nothing here now for connectivity — just pick below)
 
 #### 
 # PACKAGES
@@ -27,5 +27,7 @@ packages:
 
       ####
       # CONNECTIVITY
-      # This selects the right connectivity package based on configurable option. ("ethernet" or "wifi")
-      - packages/${connectivity}.yaml
+      # Ethernet or Wifi
+      # Pick one of these — comment/uncomment as needed
+      - packages/ethernet.yaml
+      # - packages/wifi.yaml
