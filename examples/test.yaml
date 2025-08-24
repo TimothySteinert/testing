@@ -6,7 +6,6 @@ substitutions:
   
   ####
   # CONFIGURABLE OPTIONS
-  ethernet_type: RTL8201
 
 ####
 # PACKAGES
