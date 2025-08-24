@@ -5,6 +5,7 @@ ethernet:
   clk:
     pin: GPIO0
     mode: CLK_EXT_IN
+    ignore_strapping_warning: true
   phy_addr: 0
 
 text_sensor:
