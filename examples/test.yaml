@@ -29,5 +29,9 @@ packages:
       # CONNECTIVITY
       # Ethernet or Wifi
       # Pick one of these — comment/uncomment as needed
-      - packages/ethernet.yaml
-      # - packages/wifi.yaml
+      # - packages/ethernet.yaml
+      - packages/wifi.yaml
+
+      ####
+      # INPUT
+      - packages/tamper.yaml
