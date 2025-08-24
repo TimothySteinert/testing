@@ -21,7 +21,6 @@ esp32:
   framework:
     type: esp-idf
     version: recommended
-  ignore_strapping_warnings: true  
 
 text_sensor:
   - platform: template
