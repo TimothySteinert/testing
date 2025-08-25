@@ -6,5 +6,6 @@ binary_sensor:
     pin:
       number: GPIO35
       mode: INPUT
+      inverted: true
     filters:
       - delayed_on_off: 50ms
