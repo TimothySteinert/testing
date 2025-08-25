@@ -38,3 +38,10 @@ packages:
       # INPUT
       - packages/tamper.yaml
       - packages/mmwave.yaml
+
+      ####
+      # HEXAONE STATE TRACKING
+      # This package is required. It tracks the alarm state via HexaOne Keypad HACS integration.
+      - packages/hexaone_state.yaml
+
+
