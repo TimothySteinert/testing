@@ -22,6 +22,10 @@ esp32:
     type: esp-idf
     version: recommended
 
+api:
+  encryption:
+    key: ${api_key}
+
 logger:
   level: NONE
 
