@@ -9,7 +9,7 @@ substitutions:
   
   # Exposes the MMWAVE sensor to HA for automations
   mmwave_internal: "true"   # Set to "false" if you want it exposed to HA
-  api_key: "" #API encryption key. Leave Blank to disable encryption
+  api_key: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" #API encryption key. Change from Default
 
 #### 
 # PACKAGES
