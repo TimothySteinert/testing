@@ -10,6 +10,8 @@ substitutions:
   # Exposes the MMWAVE sensor to HA for automations
   mmwave_internal: "true"   # Set to "false" if you want it exposed to HA
   api_key: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" #API encryption key. Change from Default
+  wifi_ssid: "xxx"
+  wifi_password: "xxx"
 
 #### 
 # PACKAGES
