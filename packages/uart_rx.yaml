@@ -42,10 +42,16 @@ uart:
               id(arm_mode_select).publish_state("Home");
               id(arm_handler).execute();
               break;
-            case 4:
-              id(arm_mode_select).publish_state("${custom_mode}");
-              id(arm_handler).execute();
+            case 4: {
+              std::string mode = "${custom_mode}";
+              id(arm_mode_select).publish_state(mode.c_str());
+              if (mode == "Custom") {
+                id(custom_handler).execute();
+              } else {
+                id(arm_handler).execute();
+              }
               break;
+            }
             default:
               id(arm_mode_select).publish_state("None");
               break;
