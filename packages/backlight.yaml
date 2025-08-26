@@ -2,7 +2,9 @@ switch:
   - platform: template
     name: "Automatic Backlight"
     id: automatic_backlight_switch
-    restore_mode: ${backlight_mode_restore}  # ON = default auto, OFF = default manual
+    restore_mode: RESTORE_DEFAULT_ON   # default = auto
+    lambda: |-
+      return id(automatic_backlight_switch).state;
     turn_on_action:
       - logger.log: "Backlight set to AUTO mode"
     turn_off_action:
@@ -28,10 +30,8 @@ light:
     num_leds: 5
     restore_mode: RESTORE_DEFAULT_OFF
     default_transition_length: 0.5s
-    restore_value: true
     gamma_correct: 2.8
-    default_color: [${backlight_r}, ${backlight_g}, ${backlight_b}]
-    default_brightness: ${backlight_brightness}
+    restore_value: true
     on_turn_on:
       - if:
           condition:
