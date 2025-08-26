@@ -12,4 +12,4 @@ binary_sensor:
           condition:
             lambda: 'return id(g_backlight_mode) == "auto";'
           then:
-            - switch.turn_on: backlight_switch
+            - light.turn_on: backlight_light
