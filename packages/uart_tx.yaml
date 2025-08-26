@@ -22,5 +22,12 @@ script:
           // Send out over UART
           id(uart_bus).write_array(id(uart_msg), 16);
 
-          ESP_LOGI("uart", "TX ID=0x%02X state=%d CRC=0x%02X",
-                   id(uart_msg)[0], id(uart_msg)[1], crc);
+          // Build hex string of full 16-byte frame
+          char buf[3 * 16 + 1];  // "XX " * 16 + null
+          char *p = buf;
+          for (int i = 0; i < 16; i++) {
+            p += sprintf(p, "%02X ", id(uart_msg)[i]);
+          }
+          *p = '\0';
+
+          ESP_LOGI("uart", "TX Frame: %s", buf);
