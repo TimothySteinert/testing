@@ -24,3 +24,11 @@ select:
       - "Vacation"
       - "Bypass"
       - "Custom"
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: 'return x == "Disarm";'
+            then:
+              - script.execute: disarm_alarm
+
