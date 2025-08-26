@@ -27,15 +27,13 @@ light:
   - platform: esp32_rmt_led_strip
     id: backlight_light
     name: "Backlight"
-    rgb_order: GRB
+    chipset: ws2812
+    rgb_order: RGB
     pin: GPIO5
     num_leds: 5
-    rmt_channel: 0
-    chipset: ws2812
     restore_mode: RESTORE_DEFAULT_OFF
     default_transition_length: 0.5s
     gamma_correct: 2.8
-    restore_value: true
     on_turn_on:
       - if:
           condition:
