@@ -6,5 +6,104 @@ script:
       prefix: string
     then:
       - lambda: |-
-          ESP_LOGI("arm_handler", "[ARM] Mode=%s, PIN=%s, Prefix=%s",
-            arm_mode.c_str(), pin.c_str(), prefix.c_str());
+          bool skip_delay = (prefix == "998");
+          bool force = (prefix == "999");
+
+          if (arm_mode == "Disarm") {
+            id(disarm_alarmo).execute(pin);
+          } else if (arm_mode == "Away") {
+            id(arm_alarmo_away).execute(pin, force, skip_delay);
+          } else if (arm_mode == "Home") {
+            id(arm_alarmo_home).execute(pin, force, skip_delay);
+          } else if (arm_mode == "Night") {
+            id(arm_alarmo_night).execute(pin, force, skip_delay);
+          } else if (arm_mode == "Vacation") {
+            id(arm_alarmo_vacation).execute(pin, force, skip_delay);
+          } else if (arm_mode == "Bypass") {
+            id(arm_alarmo_bypass).execute(pin, force, skip_delay);
+          }
+
+  - id: disarm_alarmo
+    parameters:
+      pin: string
+    then:
+      - homeassistant.service:
+          service: alarm_control_panel.alarm_disarm
+          data:
+            entity_id: alarm_control_panel.alarmo
+            code: !lambda 'return pin;'
+
+  - id: arm_alarmo_away
+    parameters:
+      pin: string
+      force: bool
+      skip_delay: bool
+    then:
+      - homeassistant.service:
+          service: alarmo.arm
+          data:
+            entity_id: alarm_control_panel.alarmo
+            mode: away
+            code: !lambda 'return pin;'
+            force: !lambda 'return force;'
+            skip_delay: !lambda 'return skip_delay;'
+
+  - id: arm_alarmo_home
+    parameters:
+      pin: string
+      force: bool
+      skip_delay: bool
+    then:
+      - homeassistant.service:
+          service: alarmo.arm
+          data:
+            entity_id: alarm_control_panel.alarmo
+            mode: home
+            code: !lambda 'return pin;'
+            force: !lambda 'return force;'
+            skip_delay: !lambda 'return skip_delay;'
+
+  - id: arm_alarmo_night
+    parameters:
+      pin: string
+      force: bool
+      skip_delay: bool
+    then:
+      - homeassistant.service:
+          service: alarmo.arm
+          data:
+            entity_id: alarm_control_panel.alarmo
+            mode: night
+            code: !lambda 'return pin;'
+            force: !lambda 'return force;'
+            skip_delay: !lambda 'return skip_delay;'
+
+  - id: arm_alarmo_vacation
+    parameters:
+      pin: string
+      force: bool
+      skip_delay: bool
+    then:
+      - homeassistant.service:
+          service: alarmo.arm
+          data:
+            entity_id: alarm_control_panel.alarmo
+            mode: vacation
+            code: !lambda 'return pin;'
+            force: !lambda 'return force;'
+            skip_delay: !lambda 'return skip_delay;'
+
+  - id: arm_alarmo_bypass
+    parameters:
+      pin: string
+      force: bool
+      skip_delay: bool
+    then:
+      - homeassistant.service:
+          service: alarmo.arm
+          data:
+            entity_id: alarm_control_panel.alarmo
+            mode: bypass
+            code: !lambda 'return pin;'
+            force: !lambda 'return force;'
+            skip_delay: !lambda 'return skip_delay;'
