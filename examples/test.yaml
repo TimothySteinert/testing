@@ -50,7 +50,7 @@ packages:
       # Pick one of these — comment/uncomment as needed
       # - packages/ethernet.yaml
       - packages/wifi.yaml
-      # Comment out this file to utilise a static IP.
+      # Uncomment out this file to utilise a static IP.
       - packages/static_ip.yaml
 
       ####
