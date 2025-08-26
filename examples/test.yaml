@@ -75,6 +75,8 @@ packages:
       - packages/uart_tx.yaml
       - packages/uart_rx.yaml
       - packages/input_handling.yaml
+      - packages/alarm_ctrl.yaml
+
 
 
       ####
