@@ -24,8 +24,12 @@ substitutions:
   dns1: "192.192.1.254"
   dns2: "1.1.1.1"
 
-  backlight_mode: "auto"        # default: "auto" or "manual"
-  backlight_timeout: "10"       # default seconds
+  ###BACKLIGHT DEFAULT VALUES###
+  backlight_mode: "auto"         # "auto" or "manual"
+  backlight_timeout: "15"        # seconds
+  backlight_rgb: "255,255,255"   # default RGB (white)
+  backlight_brightness: "50%"   # default brightness
+
 
 #### 
 # PACKAGES
