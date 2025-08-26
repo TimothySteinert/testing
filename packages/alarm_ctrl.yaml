@@ -1,9 +1,13 @@
 script:
-  - id: disarm_alarm
+  - id: arm_handler
     then:
       - lambda: |-
-          ESP_LOGI("script", "Alarm disarmed with code [%s]", id(pin_sensor).state.c_str());
-      - script.execute: reset_inputs
+          ESP_LOGI("arm_handler", "Handling arm action: %s, PIN=%s, Prefix=%s",
+            id(arm_mode_select).state.c_str(),
+            id(pin_sensor).state.c_str(),
+            id(prefix_sensor).state.c_str());
+
+          // TODO: Add actual Alarmo calls here
 
   - id: reset_inputs
     then:
