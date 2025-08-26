@@ -10,7 +10,9 @@ binary_sensor:
     on_press:
       - if:
           condition:
-            switch.is_on: automatic_backlight_switch
+            lambda: 'return id(g_automatic_backlight);'
           then:
             - logger.log: "mmWave triggered -> turning ON backlight"
             - light.turn_on: backlight_light
+          else:
+            - logger.log: "mmWave triggered but auto mode is disabled"
