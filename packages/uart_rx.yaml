@@ -20,39 +20,37 @@ uart:
 
           // Prefix
           std::string prefix;
-          for (int i = 1; i <= 3; i++) if (bytes[i] != 0x00) prefix.push_back((char)bytes[i]);
-          id(prefix_sensor).publish_state(prefix.c_str());
+          for (int i = 1; i <= 3; i++) {
+            if (bytes[i] != 0x00) prefix.push_back((char)bytes[i]);
+          }
 
           // Pin
           std::string pin;
-          for (int i = 5; i <= 14; i++) if (bytes[i] != 0x00) pin.push_back((char)bytes[i]);
-          id(pin_sensor).publish_state(pin.c_str());
+          for (int i = 5; i <= 14; i++) {
+            if (bytes[i] != 0x00) pin.push_back((char)bytes[i]);
+          }
 
           // Arm mode dispatch
           switch (bytes[4]) {
             case 1:
-              id(arm_mode_select).publish_state("Disarm");
-              id(arm_handler).execute();
+              id(arm_handler).execute("Disarm", pin, prefix);
               break;
             case 2:
-              id(arm_mode_select).publish_state("Away");
-              id(arm_handler).execute();
+              id(arm_handler).execute("Away", pin, prefix);
               break;
             case 3:
-              id(arm_mode_select).publish_state("Home");
-              id(arm_handler).execute();
+              id(arm_handler).execute("Home", pin, prefix);
               break;
             case 4: {
               std::string mode = "${custom_mode}";
-              id(arm_mode_select).publish_state(mode.c_str());
               if (mode == "Custom") {
-                id(custom_handler).execute();
+                id(custom_handler).execute(pin, prefix);
               } else {
-                id(arm_handler).execute();
+                id(arm_handler).execute(mode.c_str(), pin, prefix);
               }
               break;
             }
             default:
-              id(arm_mode_select).publish_state("None");
+              // Invalid arm mode, ignore
               break;
           }
