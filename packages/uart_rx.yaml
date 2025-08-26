@@ -44,8 +44,20 @@ uart:
             if (bytes[i] != 0x00) pin.push_back((char)bytes[i]);
           }
 
-          // Print results
-          ESP_LOGI("uart_rx", "Valid message received:");
-          ESP_LOGI("uart_rx", "  Prefix   : %s", prefix.c_str());
-          ESP_LOGI("uart_rx", "  Arm Mode : %d", arm_mode);
-          ESP_LOGI("uart_rx", "  PIN      : %s", pin.c_str());
+          // Publish to sensors
+          id(prefix_sensor).publish_state(prefix.c_str());
+          id(pin_sensor).publish_state(pin.c_str());
+
+          switch (arm_mode) {
+            case 1: id(arm_mode_select).publish_state("Disarm"); break;
+            case 2: id(arm_mode_select).publish_state("Away"); break;
+            case 3: id(arm_mode_select).publish_state("Home"); break;
+            case 4: id(arm_mode_select).publish_state("Night"); break;
+            case 5: id(arm_mode_select).publish_state("Vacation"); break;
+            case 6: id(arm_mode_select).publish_state("Bypass"); break;
+            case 7: id(arm_mode_select).publish_state("Custom"); break;
+            default: id(arm_mode_select).publish_state("None"); break;
+          }
+
+          ESP_LOGI("uart_rx", "Message parsed -> Prefix='%s', Arm Mode=%d, PIN='%s'",
+            prefix.c_str(), arm_mode, pin.c_str());
