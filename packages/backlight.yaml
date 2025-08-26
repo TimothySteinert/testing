@@ -35,20 +35,16 @@ light:
     default_transition_length: 0.5s
     gamma_correct: 2.8
     on_turn_on:
-      - if:
-          condition:
-            switch.is_on: automatic_backlight_switch
-          then:
-            - script.execute: auto_backlight_timer
+      - script.execute: auto_backlight_timer
 
 # ---- Auto Timeout Script ----
 script:
   - id: auto_backlight_timer
     mode: restart
     then:
+      - lambda: |-
+          ESP_LOGI("backlight", "Timer started: %d seconds", (int)id(backlight_timeout_num).state);
       - delay: !lambda "return (int)id(backlight_timeout_num).state * 1000;"
-      - if:
-          condition:
-            switch.is_on: automatic_backlight_switch
-          then:
-            - light.turn_off: backlight_light
+      - lambda: |-
+          ESP_LOGI("backlight", "Timer expired, turning off light");
+      - light.turn_off: backlight_light
