@@ -52,4 +52,10 @@ packages:
       # This package is required. It tracks the alarm state via HexaOne Keypad HACS integration.
       - packages/hexaone_state.yaml
 
+      ####
+      # UART
+      - packages/uart_tx.yaml
 
+      ####
+      # BACKLIGHT
+      - packages/baclight.yaml
