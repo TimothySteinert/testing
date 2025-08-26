@@ -1,41 +1,20 @@
-light:
-  - platform: esp32_rmt_led_strip
-    id: backlight_light
-    name: "Backlight"
-    chipset: ws2812
-    rgb_order: RGB
-    pin: GPIO5
-    num_leds: 5
-    restore_mode: RESTORE_DEFAULT_OFF
-    default_transition_length: 0.5s
-    gamma_correct: 2.8
-    on_turn_on:
-      - logger.log: "Backlight turned ON, starting auto timer..."
-      - script.execute: auto_backlight_timer
-
-script:
-  - id: auto_backlight_timer
-    mode: restart
-    then:
-      - if:
-          condition:
-            switch.is_on: automatic_backlight_switch
-          then:
-            - logger.log: "Auto mode enabled → Timer started"
-            - delay: !lambda "return (int)id(backlight_timeout_num).state * 1000;"
-            - logger.log: "Auto timer expired, turning OFF backlight"
-            - light.turn_off: backlight_light
-          else:
-            - logger.log: "Auto mode disabled → Timer not started"
+globals:
+  - id: g_automatic_backlight
+    type: bool
+    restore_value: true
+    initial_value: ${automatic_backlight}
 
 switch:
   - platform: template
     name: "Automatic Backlight"
     id: automatic_backlight_switch
-    restore_mode: ${backlight_mode_restore}
+    lambda: |-
+      return id(g_automatic_backlight);
     turn_on_action:
+      - lambda: 'id(g_automatic_backlight) = true;'
       - logger.log: "Backlight set to AUTO mode"
     turn_off_action:
+      - lambda: 'id(g_automatic_backlight) = false;'
       - logger.log: "Backlight set to MANUAL mode"
 
 number:
@@ -48,3 +27,33 @@ number:
     restore_value: true
     initial_value: ${backlight_timeout}
     optimistic: true
+
+light:
+  - platform: esp32_rmt_led_strip
+    id: backlight_light
+    name: "Backlight"
+    chipset: ws2812
+    rgb_order: RGB
+    pin: GPIO5
+    num_leds: 5
+    restore_mode: RESTORE_DEFAULT_OFF
+    default_transition_length: 0.5s
+    gamma_correct: 2.8
+    on_turn_on:
+      - if:
+          condition:
+            lambda: 'return id(g_automatic_backlight);'
+          then:
+            - logger.log: "Backlight turned ON, starting auto timer..."
+            - script.execute: auto_backlight_timer
+          else:
+            - logger.log: "Backlight turned ON (manual mode, no timer)"
+
+script:
+  - id: auto_backlight_timer
+    mode: restart
+    then:
+      - logger.log: "Auto mode enabled → Timer started"
+      - delay: !lambda "return (int)id(backlight_timeout_num).state * 1000;"
+      - logger.log: "Auto timer expired, turning OFF backlight"
+      - light.turn_off: backlight_light
