@@ -1,18 +1,15 @@
 text_sensor:
   - platform: template
     id: prefix_sensor
-    internal: false
     name: "Pin Prefix"
 
   - platform: template
     id: pin_sensor
-    internal: false
     name: "Pin Code"
 
 select:
   - platform: template
     id: arm_mode_select
-    internal: false
     name: "Arm Mode"
     optimistic: true
     options:
@@ -24,11 +21,3 @@ select:
       - "Vacation"
       - "Bypass"
       - "Custom"
-    on_value:
-      then:
-        - if:
-            condition:
-              lambda: 'return x == "Disarm";'
-            then:
-              - script.execute: disarm_alarm
-
