@@ -1,9 +1,3 @@
-uart:
-  id: uart_bus
-  tx_pin: 22
-  rx_pin: 21
-  baud_rate: 9600
-
 globals:
   - id: uart_msg
     type: uint8_t[16]
