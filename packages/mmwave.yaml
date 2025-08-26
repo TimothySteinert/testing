@@ -5,7 +5,7 @@ binary_sensor:
     device_class: motion
     internal: ${mmwave_internal}
     pin:
-      number: GPIO39
+      number: GPIO34
       mode: INPUT
     on_press:
       - if:
