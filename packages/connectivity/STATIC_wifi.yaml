@@ -1,0 +1,39 @@
+wifi:
+  ssid: "${wifi_ssid}"
+  password: "${wifi_password}"
+
+  manual_ip:
+    static_ip: ${static_ip}
+    gateway: ${gateway}
+    subnet: ${subnet}
+    dns1: ${dns1}
+    dns2: ${dns2}
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+
+improv_serial:
+
+captive_portal:
+
+sensor:
+  - platform: wifi_signal
+    name: WiFi Signal RSSI
+    id: wifi_signal_db
+    entity_category: diagnostic
+
+  - platform: copy
+    source_id: wifi_signal_db
+    id: wifi_signal_pct
+    name: WiFi Signal %
+    filters:
+      - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
+    unit_of_measurement: "%"
+    entity_category: diagnostic
+    device_class: ""
+
+text_sensor:
+  - platform: wifi_info
+    ip_address:
+      name: IP Address
+      entity_category: diagnostic
