@@ -74,6 +74,8 @@ packages:
       # UART
       - packages/uart_tx.yaml
       - packages/uart_rx.yaml
+      - packages/input_handling.yaml
+
 
       ####
       # BACKLIGHT
