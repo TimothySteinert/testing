@@ -1,3 +1,14 @@
+globals:
+  - id: g_backlight_mode
+    type: std::string
+    restore_value: yes
+    initial_value: '"${backlight_mode}"'
+
+  - id: g_backlight_timeout
+    type: int
+    restore_value: yes
+    initial_value: ${backlight_timeout}
+
 binary_sensor:
   - platform: gpio
     id: mmwave_sensor
@@ -7,3 +18,21 @@ binary_sensor:
     pin:
       number: GPIO39
       mode: INPUT
+    on_press:
+      - if:
+          condition:
+            lambda: 'return id(g_backlight_mode) == "auto";'
+          then:
+            - switch.turn_on: backlight_switch
+            - script.execute: auto_backlight_timer
+
+script:
+  - id: auto_backlight_timer
+    mode: restart   # retrigger resets timer
+    then:
+      - delay: !lambda "return id(g_backlight_timeout) * 1000;"
+      - if:
+          condition:
+            lambda: 'return id(g_backlight_mode) == "auto";'
+          then:
+            - switch.turn_off: backlight_switch
