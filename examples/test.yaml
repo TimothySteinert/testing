@@ -27,11 +27,7 @@ substitutions:
   #BACKLIGHT CONTROL
   # Backlight timeout in seconds (0–600)
   backlight_timeout: "60"
-  # Backlight mode at boot:
-  #   on  = auto
-  #   off = manual
-  backlight_mode_restore: "RESTORE_DEFAULT_ON"
-
+  automatic_backlight: "true"   # "true" = default AUTO, "false" = default MANUAL
 
 #### 
 # PACKAGES
