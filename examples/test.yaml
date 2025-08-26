@@ -29,6 +29,8 @@ substitutions:
   backlight_timeout: "60"
   automatic_backlight: "true"   # "true" = default AUTO, "false" = default MANUAL
 
+  custom_mode: "Night"   # Options: Night, Vacation, Bypass, Custom
+
 #### 
 # PACKAGES
 # Each package includes keypad features.
