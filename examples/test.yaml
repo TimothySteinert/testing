@@ -24,11 +24,13 @@ substitutions:
   dns1: "192.192.1.254"
   dns2: "1.1.1.1"
 
-  ###BACKLIGHT DEFAULT VALUES###
-  backlight_mode: "auto"         # "auto" or "manual"
-  backlight_timeout: "15"        # seconds
-  backlight_rgb: "255,255,255"   # default RGB (white)
-  backlight_brightness: "50%"   # default brightness
+  #BACKLIGHT CONTROL
+  # Backlight timeout in seconds (0–600)
+  backlight_timeout: "60"
+  # Backlight mode at boot:
+  #   on  = auto
+  #   off = manual
+  backlight_mode_restore: "RESTORE_DEFAULT_ON"
 
 
 #### 
