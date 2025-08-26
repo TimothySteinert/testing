@@ -4,13 +4,17 @@ switch:
     id: backlight_switch
     restore_mode: RESTORE_DEFAULT_OFF
     turn_on_action:
-      - script.execute: build_backlight_msg
+      - lambda: |-
+          id(build_backlight_msg)(true);   // true = ON
     turn_off_action:
-      - script.execute: build_backlight_msg
+      - lambda: |-
+          id(build_backlight_msg)(false);  // false = OFF
 
 script:
   - id: build_backlight_msg
     mode: restart
+    parameters:
+      state: bool
     then:
       - lambda: |-
           // Clear buffer
@@ -19,19 +23,19 @@ script:
           // Message ID
           id(uart_msg)[0] = 0xB1;
 
-          // Byte 1 = Backlight (check switch state directly)
-          id(uart_msg)[1] = id(backlight_switch).state ? 0x01 : 0x00;
+          // Byte 1 = Backlight state
+          id(uart_msg)[1] = state ? 0x01 : 0x00;
 
-          // Byte 2 = Reserved (Night backlight)
+          // Byte 2 = Reserved (Night)
           id(uart_msg)[2] = 0x00;
 
-          // Byte 3 = Reserved (Custom backlight)
+          // Byte 3 = Reserved (Custom)
           id(uart_msg)[3] = 0x00;
 
-          // Byte 4 = Brightness (fixed at 50% for now, later link to number)
+          // Byte 4 = Brightness (fixed 50%)
           id(uart_msg)[4] = 50;
 
-          // Bytes 5–7 = Colour RGB (fixed white for now, later link to text_sensor)
+          // Bytes 5–7 = RGB White
           id(uart_msg)[5] = 0xFF;
           id(uart_msg)[6] = 0xFF;
           id(uart_msg)[7] = 0xFF;
