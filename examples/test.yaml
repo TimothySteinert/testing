@@ -73,6 +73,7 @@ packages:
       ####
       # UART
       - packages/uart_tx.yaml
+      - packages/uart_rx.yaml
 
       ####
       # BACKLIGHT
