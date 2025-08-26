@@ -1,4 +1,14 @@
 globals:
+  - id: g_backlight_mode
+    type: std::string
+    restore_value: yes
+    initial_value: '"${backlight_mode}"'
+
+  - id: g_backlight_timeout
+    type: int
+    restore_value: yes
+    initial_value: ${backlight_timeout}
+
   - id: g_backlight_state
     type: bool
     restore_value: no
@@ -13,10 +23,12 @@ globals:
     type: int
     restore_value: no
     initial_value: "255"
+
   - id: g_backlight_g
     type: int
     restore_value: no
     initial_value: "255"
+
   - id: g_backlight_b
     type: int
     restore_value: no
@@ -33,37 +45,38 @@ switch:
       - lambda: |-
           id(g_backlight_state) = true;
       - script.execute: build_backlight_msg
+      - if:    # Start auto timer only if in auto mode
+          condition:
+            lambda: 'return id(g_backlight_mode) == "auto";'
+          then:
+            - script.execute: auto_backlight_timer
     turn_off_action:
       - lambda: |-
           id(g_backlight_state) = false;
       - script.execute: build_backlight_msg
 
 script:
+  - id: auto_backlight_timer
+    mode: restart
+    then:
+      - delay: !lambda "return id(g_backlight_timeout) * 1000;"
+      - if:
+          condition:
+            lambda: 'return id(g_backlight_mode) == "auto";'
+          then:
+            - switch.turn_off: backlight_switch
+
   - id: build_backlight_msg
     mode: restart
     then:
       - lambda: |-
-          // Clear buffer
           for (int i = 0; i < 16; i++) id(uart_msg)[i] = 0xFF;
-
-          // Message ID
           id(uart_msg)[0] = 0xB1;
-
-          // Byte 1 = Backlight ON/OFF from global
           id(uart_msg)[1] = id(g_backlight_state) ? 0x01 : 0x00;
-
-          // Byte 2 = Reserved (Night)
-          id(uart_msg)[2] = 0x00;
-
-          // Byte 3 = Reserved (Custom)
-          id(uart_msg)[3] = 0x00;
-
-          // Byte 4 = Brightness (from global)
+          id(uart_msg)[2] = 0x00;  // Reserved
+          id(uart_msg)[3] = 0x00;  // Reserved
           id(uart_msg)[4] = (uint8_t) id(g_backlight_brightness);
-
-          // Bytes 5–7 = RGB from globals
           id(uart_msg)[5] = (uint8_t) id(g_backlight_r);
           id(uart_msg)[6] = (uint8_t) id(g_backlight_g);
           id(uart_msg)[7] = (uint8_t) id(g_backlight_b);
-
       - script.execute: uart_send
