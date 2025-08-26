@@ -12,5 +12,5 @@ binary_sensor:
           condition:
             switch.is_on: automatic_backlight_switch
           then:
+            - logger.log: "mmWave triggered -> turning ON backlight"
             - light.turn_on: backlight_light
-
