@@ -1,0 +1,26 @@
+uart:
+  id: uart_bus
+  tx_pin: 22
+  rx_pin: 21
+  baud_rate: 9600
+
+globals:
+  - id: uart_msg
+    type: uint8_t[16]
+    restore_value: no
+
+script:
+  - id: uart_send
+    mode: restart
+    then:
+      - lambda: |-
+          // Compute XOR checksum over bytes 0–14
+          uint8_t crc = 0;
+          for (int i = 0; i < 15; i++) crc ^= id(uart_msg)[i];
+          id(uart_msg)[15] = crc;
+
+          // Send out over UART
+          id(uart_bus).write_array(id(uart_msg), 16);
+
+          ESP_LOGI("uart", "TX ID=0x%02X state=%d CRC=0x%02X",
+                   id(uart_msg)[0], id(uart_msg)[1], crc);
