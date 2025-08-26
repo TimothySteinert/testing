@@ -1,8 +1,9 @@
+# ---- Exposed Controls ----
 switch:
   - platform: template
     name: "Automatic Backlight"
     id: automatic_backlight_switch
-    restore_mode: RESTORE_DEFAULT_ON   # default = auto
+    restore_mode: ${backlight_mode_restore}
     lambda: |-
       return id(automatic_backlight_switch).state;
     turn_on_action:
@@ -21,13 +22,16 @@ number:
     initial_value: ${backlight_timeout}
     optimistic: true
 
+# ---- Backlight Light (5 pixels, pins 7–11)
 light:
-  - platform: neopixelbus
+  - platform: esp32_rmt_led_strip
     id: backlight_light
     name: "Backlight"
-    type: GRB
+    rgb_order: GRB
     pin: GPIO5
     num_leds: 5
+    rmt_channel: 0
+    chipset: ws2812
     restore_mode: RESTORE_DEFAULT_OFF
     default_transition_length: 0.5s
     gamma_correct: 2.8
@@ -39,6 +43,7 @@ light:
           then:
             - script.execute: auto_backlight_timer
 
+# ---- Auto Timeout Script ----
 script:
   - id: auto_backlight_timer
     mode: restart
