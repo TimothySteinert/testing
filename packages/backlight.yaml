@@ -12,6 +12,11 @@ switch:
       return id(g_automatic_backlight);
     turn_on_action:
       - lambda: 'id(g_automatic_backlight) = true;'
+      - if:
+          condition:
+            light.is_on: backlight_light
+          then:
+            - script.execute: auto_backlight_timer
     turn_off_action:
       - lambda: 'id(g_automatic_backlight) = false;'
 
