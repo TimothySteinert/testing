@@ -76,7 +76,6 @@ packages:
       # UART
       - packages/uart_tx.yaml
       - packages/uart_rx.yaml
-      - packages/input_handling.yaml
       - packages/alarm_ctrl.yaml
 
 
@@ -87,9 +86,11 @@ packages:
 
 script:
   - id: custom_handler
+    parameters:
+      pin: string
+      prefix: string
     then:
       - lambda: |-
-          ESP_LOGI("custom_handler", "Custom action. Prefix=%s, PIN=%s",
-            id(prefix_sensor).state.c_str(),
-            id(pin_sensor).state.c_str());
-          // TODO: user-defined custom logic here
+          ESP_LOGI("custom_handler", "Custom action triggered. Prefix=%s, PIN=%s",
+            prefix.c_str(), pin.c_str());
+      # Add user custom logic here
