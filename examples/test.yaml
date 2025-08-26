@@ -30,6 +30,7 @@ substitutions:
   automatic_backlight: "true"   # "true" = default AUTO, "false" = default MANUAL
 
   custom_mode: "Night"   # Options: Night, Vacation, Bypass, Custom
+  alarmo_entity: "alarm_control_panel.alarmo"
 
 #### 
 # PACKAGES
