@@ -19,7 +19,33 @@ script:
           // Message ID
           id(uart_msg)[0] = 0xB1;
 
-          // Byte 1 = on/off
+          // Byte 1 = Backlight (0x01 = on, 0x00 = off)
           id(uart_msg)[1] = id(backlight_switch).state ? 0x01 : 0x00;
+
+          // Byte 2 = Reserved (Night backlight)
+          id(uart_msg)[2] = 0x00;
+
+          // Byte 3 = Reserved (Custom backlight)
+          id(uart_msg)[3] = 0x00;
+
+          // Byte 4 = Brightness (0–100)
+          id(uart_msg)[4] = (uint8_t) id(backlight_brightness_num).state;
+
+          // Bytes 5–7 = Colour RGB (#RRGGBB parsed from text sensor)
+          {
+            auto colour = id(backlight_colour_txt).state;  // "#RRGGBB"
+            if (colour.size() == 7 && colour[0] == '#') {
+              int r = strtol(colour.substr(1,2).c_str(), nullptr, 16);
+              int g = strtol(colour.substr(3,2).c_str(), nullptr, 16);
+              int b = strtol(colour.substr(5,2).c_str(), nullptr, 16);
+              id(uart_msg)[5] = (uint8_t) r;
+              id(uart_msg)[6] = (uint8_t) g;
+              id(uart_msg)[7] = (uint8_t) b;
+            } else {
+              id(uart_msg)[5] = 0;
+              id(uart_msg)[6] = 0;
+              id(uart_msg)[7] = 0;
+            }
+          }
 
       - script.execute: uart_send   # Hand off to uart_tx package
