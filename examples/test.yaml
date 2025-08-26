@@ -84,3 +84,12 @@ packages:
       ####
       # BACKLIGHT
       - packages/backlight.yaml
+
+script:
+  - id: custom_handler
+    then:
+      - lambda: |-
+          ESP_LOGI("custom_handler", "Custom action. Prefix=%s, PIN=%s",
+            id(prefix_sensor).state.c_str(),
+            id(pin_sensor).state.c_str());
+          // TODO: user-defined custom logic here
