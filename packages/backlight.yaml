@@ -32,7 +32,7 @@ light:
     default_transition_length: 0.5s
     restore_value: true
     gamma_correct: 2.8
-    default_color: [${backlight_rgb}]        # substitution sets starting RGB
+    default_color: [${backlight_r}, ${backlight_g}, ${backlight_b}]
     default_brightness: ${backlight_brightness}
     on_turn_on:
       - if:
