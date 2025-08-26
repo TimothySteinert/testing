@@ -1,11 +1,8 @@
-# ---- Exposed Controls ----
 switch:
   - platform: template
     name: "Automatic Backlight"
     id: automatic_backlight_switch
     restore_mode: ${backlight_mode_restore}
-    lambda: |-
-      return id(automatic_backlight_switch).state;
     turn_on_action:
       - logger.log: "Backlight set to AUTO mode"
     turn_off_action:
@@ -35,7 +32,11 @@ light:
     default_transition_length: 0.5s
     gamma_correct: 2.8
     on_turn_on:
-      - script.execute: auto_backlight_timer
+      - if:
+          condition:
+            switch.is_on: automatic_backlight_switch
+          then:
+            - script.execute: auto_backlight_timer
 
 # ---- Auto Timeout Script ----
 script:
