@@ -1,4 +1,4 @@
-sensor:
+text_sensor:
   - platform: homeassistant
     id: ha_alarm_state
     entity_id: sensor.hexaone_alarm_tracker
