@@ -29,16 +29,7 @@ uart:
           id(pin_sensor).publish_state(pin.c_str());
 
           // Arm mode dispatch
-          uint8_t arm_mode = bytes[4];
-          id(arm_selector).execute(arm_mode);
-
-script:
-  - id: arm_selector
-    parameters:
-      arm_mode: int
-    then:
-      - lambda: |-
-          switch (arm_mode) {
+          switch (bytes[4]) {
             case 1:
               id(arm_mode_select).publish_state("Disarm");
               id(arm_handler).execute();
@@ -52,7 +43,6 @@ script:
               id(arm_handler).execute();
               break;
             case 4:
-              // Custom maps via substitution
               id(arm_mode_select).publish_state("${custom_mode}");
               id(arm_handler).execute();
               break;
