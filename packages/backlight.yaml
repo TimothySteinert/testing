@@ -2,9 +2,7 @@ switch:
   - platform: template
     name: "Automatic Backlight"
     id: automatic_backlight_switch
-    restore_mode: RESTORE_DEFAULT_${backlight_mode^^}   # expands to ON if auto, OFF if manual
-    lambda: |-
-      return ${backlight_mode} == "auto";
+    restore_mode: ${backlight_mode_restore}  # ON = default auto, OFF = default manual
     turn_on_action:
       - logger.log: "Backlight set to AUTO mode"
     turn_off_action:
