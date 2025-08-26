@@ -27,6 +27,8 @@ switch:
     name: "Backlight"
     id: backlight_switch
     restore_mode: RESTORE_DEFAULT_OFF
+    lambda: |-
+      return id(g_backlight_state);
     turn_on_action:
       - lambda: |-
           id(g_backlight_state) = true;
