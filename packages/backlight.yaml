@@ -1,0 +1,25 @@
+switch:
+  - platform: template
+    name: "Backlight"
+    id: backlight_switch
+    restore_mode: RESTORE_DEFAULT_OFF
+    turn_on_action:
+      - script.execute: build_backlight_msg
+    turn_off_action:
+      - script.execute: build_backlight_msg
+
+script:
+  - id: build_backlight_msg
+    mode: restart
+    then:
+      - lambda: |-
+          // Clear buffer
+          for (int i = 0; i < 16; i++) id(uart_msg)[i] = 0xFF;
+
+          // Message ID
+          id(uart_msg)[0] = 0xB1;
+
+          // Byte 1 = on/off
+          id(uart_msg)[1] = id(backlight_switch).state ? 0x01 : 0x00;
+
+      - script.execute: uart_send   # Hand off to uart_tx package
