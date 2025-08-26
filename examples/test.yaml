@@ -24,6 +24,9 @@ substitutions:
   dns1: "192.192.1.254"
   dns2: "1.1.1.1"
 
+  backlight_mode: "auto"        # default: "auto" or "manual"
+  backlight_timeout: "10"       # default seconds
+
 #### 
 # PACKAGES
 # Each package includes keypad features.
