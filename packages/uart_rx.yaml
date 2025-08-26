@@ -7,49 +7,32 @@ uart:
     direction: RX
     dummy_receiver: true
     after:
-      bytes: 3   # process after every 3 bytes (our packet size)
+      bytes: 16   # process full packet
     sequence:
       - lambda: |-
-          if (bytes.size() != 3) return;
+          if (bytes.size() != 16) return;
 
-          uint8_t id_byte   = bytes[0];
-          uint8_t data_byte = bytes[1];
-          uint8_t crc_byte  = bytes[2];
-          uint8_t calc_crc  = id_byte ^ data_byte;
+          uint8_t id_byte = bytes[0];
+          uint8_t crc_calc = 0x00;
+          for (int i = 0; i < 15; i++) {
+            crc_calc ^= bytes[i];
+          }
+          uint8_t crc_recv = bytes[15];
 
           if (id_byte != 0xA0) {
             ESP_LOGW("uart_rx", "Ignored packet: wrong ID 0x%02X", id_byte);
             return;
           }
 
-          if (crc_byte != calc_crc) {
-            ESP_LOGW("uart_rx", "CRC mismatch: got 0x%02X expected 0x%02X", crc_byte, calc_crc);
+          if (crc_recv != crc_calc) {
+            ESP_LOGW("uart_rx", "CRC mismatch: got 0x%02X expected 0x%02X", crc_recv, crc_calc);
             return;
           }
 
-          std::string label;
-          switch (data_byte) {
-            case 0x31: label = "1"; break;
-            case 0x32: label = "2"; break;
-            case 0x33: label = "3"; break;
-            case 0x41: label = "Away"; break;
-
-            case 0x34: label = "4"; break;
-            case 0x35: label = "5"; break;
-            case 0x36: label = "6"; break;
-            case 0x48: label = "Home"; break;
-
-            case 0x37: label = "7"; break;
-            case 0x38: label = "8"; break;
-            case 0x39: label = "9"; break;
-            case 0x44: label = "Disarm"; break;
-
-            case 0x43: label = "Clear"; break;
-            case 0x30: label = "0"; break;
-            case 0x45: label = "Enter"; break;
-            case 0x4F: label = "Custom"; break;
-
-            default:   label = "Unknown"; break;
+          ESP_LOGI("uart_rx", "Valid 16-byte message received:");
+          char buf[100];
+          int idx = 0;
+          for (size_t i = 0; i < bytes.size(); i++) {
+            idx += snprintf(buf + idx, sizeof(buf) - idx, "0x%02X ", bytes[i]);
           }
-
-          ESP_LOGI("uart_rx", "Key Pressed: %s (0x%02X)", label.c_str(), data_byte);
+          ESP_LOGI("uart_rx", "%s", buf);
