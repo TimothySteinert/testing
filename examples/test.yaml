@@ -14,8 +14,10 @@ substitutions:
   wifi_password: "xxx"
 
   ####
-  #STATIC IP SETTINGS
-  #Uncomment static_ip.yaml to utilise
+  # STATIC IP SETTINGS
+  # These values are only used if you select one of the static connectivity packages
+  # (static_wifi.yaml or static_ethernet.yaml).
+  # If you are using DHCP (dhcp_wifi.yaml or dhcp_ethernet.yaml), these can be ignored.
   static_ip: "192.168.1.150"
   gateway: "192.168.1.254"
   subnet: "255.255.255.0"
@@ -46,12 +48,12 @@ packages:
 
       ####
       # CONNECTIVITY
-      # Ethernet or Wifi
-      # Pick one of these — comment/uncomment as needed
-      # - packages/ethernet.yaml
-      - packages/wifi.yaml
-      # Uncomment out this file to utilise a static IP.
-      - packages/static_ip.yaml
+      # Choose ONE connectivity method below by uncommenting the line:
+      # Wi-Fi (DHCP or Static) OR Ethernet (DHCP or Static)
+      # - packages/connectivity/dhcp_wifi.yaml  # Wi-Fi with DHCP
+      - packages/connectivity/static_wifi.yaml  # Wi-Fi with Static IP
+      # - packages/connectivity/dhcp_ethernet.yaml  # Ethernet with DHCP
+      # - packages/connectivity/static_ethernet.yaml  # Ethernet with Static IP
 
       ####
       # INPUT
