@@ -34,7 +34,18 @@ globals:
     restore_value: no
     initial_value: "255"
 
+# --- Exposed Controls in HA ---
 switch:
+  - platform: template
+    name: "Automatic Backlight"
+    id: automatic_backlight_switch
+    lambda: |-
+      return id(g_backlight_mode) == "auto";
+    turn_on_action:
+      - lambda: 'id(g_backlight_mode) = "auto";'
+    turn_off_action:
+      - lambda: 'id(g_backlight_mode) = "manual";'
+
   - platform: template
     name: "Backlight"
     id: backlight_switch
@@ -45,7 +56,7 @@ switch:
       - lambda: |-
           id(g_backlight_state) = true;
       - script.execute: build_backlight_msg
-      - if:    # Start auto timer only if in auto mode
+      - if:
           condition:
             lambda: 'return id(g_backlight_mode) == "auto";'
           then:
@@ -55,6 +66,40 @@ switch:
           id(g_backlight_state) = false;
       - script.execute: build_backlight_msg
 
+number:
+  - platform: template
+    name: "Backlight Timeout"
+    id: backlight_timeout_num
+    min_value: 0
+    max_value: 600
+    step: 1
+    restore_value: yes
+    initial_value: ${backlight_timeout}
+    optimistic: true
+    set_action:
+      - lambda: |-
+          id(g_backlight_timeout) = (int)x;
+          ESP_LOGI("backlight", "Timeout set to %d seconds", id(g_backlight_timeout));
+
+color:
+  - platform: template
+    name: "Backlight Colour"
+    id: backlight_colour
+    restore_value: yes
+    initial_value: [1.0, 1.0, 1.0]   # default white
+    on_value:
+      then:
+        - lambda: |-
+            // Convert HSV [0-1] to RGB [0-255] (simple)
+            auto rgb = id(backlight_colour).current_values.get_red(), 
+                       id(backlight_colour).current_values.get_green(), 
+                       id(backlight_colour).current_values.get_blue();
+            id(g_backlight_r) = (uint8_t)(rgb[0] * 255);
+            id(g_backlight_g) = (uint8_t)(rgb[1] * 255);
+            id(g_backlight_b) = (uint8_t)(rgb[2] * 255);
+            ESP_LOGI("backlight", "Colour updated to R:%d G:%d B:%d", id(g_backlight_r), id(g_backlight_g), id(g_backlight_b));
+
+# --- Scripts ---
 script:
   - id: auto_backlight_timer
     mode: restart
@@ -73,8 +118,8 @@ script:
           for (int i = 0; i < 16; i++) id(uart_msg)[i] = 0xFF;
           id(uart_msg)[0] = 0xB1;
           id(uart_msg)[1] = id(g_backlight_state) ? 0x01 : 0x00;
-          id(uart_msg)[2] = 0x00;  // Reserved
-          id(uart_msg)[3] = 0x00;  // Reserved
+          id(uart_msg)[2] = 0x00;
+          id(uart_msg)[3] = 0x00;
           id(uart_msg)[4] = (uint8_t) id(g_backlight_brightness);
           id(uart_msg)[5] = (uint8_t) id(g_backlight_r);
           id(uart_msg)[6] = (uint8_t) id(g_backlight_g);
