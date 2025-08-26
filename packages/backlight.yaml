@@ -1,3 +1,33 @@
+light:
+  - platform: esp32_rmt_led_strip
+    id: backlight_light
+    name: "Backlight"
+    chipset: ws2812
+    rgb_order: RGB
+    pin: GPIO5
+    num_leds: 5
+    restore_mode: RESTORE_DEFAULT_OFF
+    default_transition_length: 0.5s
+    gamma_correct: 2.8
+    on_turn_on:
+      - logger.log: "Backlight turned ON, starting auto timer..."
+      - script.execute: auto_backlight_timer
+
+script:
+  - id: auto_backlight_timer
+    mode: restart
+    then:
+      - if:
+          condition:
+            switch.is_on: automatic_backlight_switch
+          then:
+            - logger.log: "Auto mode enabled → Timer started"
+            - delay: !lambda "return (int)id(backlight_timeout_num).state * 1000;"
+            - logger.log: "Auto timer expired, turning OFF backlight"
+            - light.turn_off: backlight_light
+          else:
+            - logger.log: "Auto mode disabled → Timer not started"
+
 switch:
   - platform: template
     name: "Automatic Backlight"
@@ -18,34 +48,3 @@ number:
     restore_value: true
     initial_value: ${backlight_timeout}
     optimistic: true
-
-# ---- Backlight Light (5 pixels, pins 7–11)
-light:
-  - platform: esp32_rmt_led_strip
-    id: backlight_light
-    name: "Backlight"
-    chipset: ws2812
-    rgb_order: RGB
-    pin: GPIO5
-    num_leds: 5
-    restore_mode: RESTORE_DEFAULT_OFF
-    default_transition_length: 0.5s
-    gamma_correct: 2.8
-    on_turn_on:
-      - if:
-          condition:
-            switch.is_on: automatic_backlight_switch
-          then:
-            - script.execute: auto_backlight_timer
-
-# ---- Auto Timeout Script ----
-script:
-  - id: auto_backlight_timer
-    mode: restart
-    then:
-      - lambda: |-
-          ESP_LOGI("backlight", "Timer started: %d seconds", (int)id(backlight_timeout_num).state);
-      - delay: !lambda "return (int)id(backlight_timeout_num).state * 1000;"
-      - lambda: |-
-          ESP_LOGI("backlight", "Timer expired, turning off light");
-      - light.turn_off: backlight_light
