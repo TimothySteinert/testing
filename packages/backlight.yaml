@@ -12,10 +12,8 @@ switch:
       return id(g_automatic_backlight);
     turn_on_action:
       - lambda: 'id(g_automatic_backlight) = true;'
-      - logger.log: "Backlight set to AUTO mode"
     turn_off_action:
       - lambda: 'id(g_automatic_backlight) = false;'
-      - logger.log: "Backlight set to MANUAL mode"
 
 number:
   - platform: template
@@ -44,16 +42,11 @@ light:
           condition:
             lambda: 'return id(g_automatic_backlight);'
           then:
-            - logger.log: "Backlight turned ON, starting auto timer..."
             - script.execute: auto_backlight_timer
-          else:
-            - logger.log: "Backlight turned ON (manual mode, no timer)"
 
 script:
   - id: auto_backlight_timer
     mode: restart
     then:
-      - logger.log: "Auto mode enabled → Timer started"
       - delay: !lambda "return (int)id(backlight_timeout_num).state * 1000;"
-      - logger.log: "Auto timer expired, turning OFF backlight"
       - light.turn_off: backlight_light
