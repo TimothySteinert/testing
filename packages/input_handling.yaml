@@ -1,0 +1,26 @@
+text_sensor:
+  - platform: template
+    id: prefix_sensor
+    internal: false
+    name: "Pin Prefix"
+
+  - platform: template
+    id: pin_sensor
+    internal: false
+    name: "Pin Code"
+
+select:
+  - platform: template
+    id: arm_mode_select
+    internal: false
+    name: "Arm Mode"
+    optimistic: true
+    options:
+      - "None"
+      - "Disarm"
+      - "Away"
+      - "Home"
+      - "Night"
+      - "Vacation"
+      - "Bypass"
+      - "Custom"
