@@ -1,18 +1,10 @@
 script:
   - id: arm_handler
+    parameters:
+      arm_mode: string
+      pin: string
+      prefix: string
     then:
       - lambda: |-
-          ESP_LOGI("arm_handler", "Handling arm action: %s, PIN=%s, Prefix=%s",
-            id(arm_mode_select).state.c_str(),
-            id(pin_sensor).state.c_str(),
-            id(prefix_sensor).state.c_str());
-
-          // TODO: Add actual Alarmo calls here
-
-  - id: reset_inputs
-    then:
-      - lambda: |-
-          id(prefix_sensor).publish_state("");
-          id(pin_sensor).publish_state("");
-          id(arm_mode_select).publish_state("None");
-      - logger.log: "Inputs reset (prefix=0, pin=0, arm mode=None)"
+          ESP_LOGI("arm_handler", "[ARM] Mode=%s, PIN=%s, Prefix=%s",
+            arm_mode.c_str(), pin.c_str(), prefix.c_str());
