@@ -30,7 +30,7 @@ script:
       - homeassistant.service:
           service: alarm_control_panel.alarm_disarm
           data:
-            entity_id: alarm_control_panel.alarmo
+            entity_id: ${alarmo_entity}
             code: !lambda 'return pin;'
 
   - id: arm_alarmo_away
@@ -42,7 +42,7 @@ script:
       - homeassistant.service:
           service: alarmo.arm
           data:
-            entity_id: alarm_control_panel.alarmo
+            entity_id: ${alarmo_entity}
             mode: away
             code: !lambda 'return pin;'
             force: !lambda 'return force;'
@@ -57,7 +57,7 @@ script:
       - homeassistant.service:
           service: alarmo.arm
           data:
-            entity_id: alarm_control_panel.alarmo
+            entity_id: ${alarmo_entity}
             mode: home
             code: !lambda 'return pin;'
             force: !lambda 'return force;'
@@ -72,7 +72,7 @@ script:
       - homeassistant.service:
           service: alarmo.arm
           data:
-            entity_id: alarm_control_panel.alarmo
+            entity_id: ${alarmo_entity}
             mode: night
             code: !lambda 'return pin;'
             force: !lambda 'return force;'
@@ -87,7 +87,7 @@ script:
       - homeassistant.service:
           service: alarmo.arm
           data:
-            entity_id: alarm_control_panel.alarmo
+            entity_id: ${alarmo_entity}
             mode: vacation
             code: !lambda 'return pin;'
             force: !lambda 'return force;'
@@ -102,7 +102,7 @@ script:
       - homeassistant.service:
           service: alarmo.arm
           data:
-            entity_id: alarm_control_panel.alarmo
+            entity_id: ${alarmo_entity}
             mode: bypass
             code: !lambda 'return pin;'
             force: !lambda 'return force;'
