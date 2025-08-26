@@ -8,7 +8,7 @@ script:
   - id: reset_inputs
     then:
       - lambda: |-
-          id(prefix_sensor).publish_state("0");
-          id(pin_sensor).publish_state("0");
+          id(prefix_sensor).publish_state("");
+          id(pin_sensor).publish_state("");
           id(arm_mode_select).publish_state("None");
       - logger.log: "Inputs reset (prefix=0, pin=0, arm mode=None)"
