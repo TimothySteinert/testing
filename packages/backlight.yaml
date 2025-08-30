@@ -11,14 +11,18 @@ switch:
     lambda: |-
       return id(g_automatic_backlight);
     turn_on_action:
-      - lambda: 'id(g_automatic_backlight) = true;'
+      - globals.set:
+          id: g_automatic_backlight
+          value: 'true'
       - if:
           condition:
             light.is_on: backlight_light
           then:
             - script.execute: auto_backlight_timer
     turn_off_action:
-      - lambda: 'id(g_automatic_backlight) = false;'
+      - globals.set:
+          id: g_automatic_backlight
+          value: 'false'
 
 number:
   - platform: template
