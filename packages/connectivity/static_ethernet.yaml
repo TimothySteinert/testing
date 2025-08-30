@@ -1,13 +1,14 @@
 ethernet:
-  type: RTL8201
-  mdc_pin: GPIO16
-  mdio_pin: GPIO17
+  type: LAN8720
+  mdc_pin: GPIO23
+  mdio_pin: GPIO18
   clk:
     pin:
       number: GPIO0
       ignore_strapping_warning: true
     mode: CLK_EXT_IN
   phy_addr: 0
+  power_pin: GPIO16
 
   manual_ip:
     static_ip: ${static_ip}
