@@ -45,7 +45,7 @@ substitutions:
 packages:
   remote_package:
     url: https://github.com/TimothySteinert/testing
-    ref: master
+    ref: main
     refresh: 5min
     files:
 
@@ -106,7 +106,7 @@ script:
     parameters:
       pin: string
       prefix: string
-#    then:
+    then:
 #      - lambda: |-
 # Example: if the prefix is 1 and the pincode is 111. Call "turn_on_backlight".
 #          if (prefix == "1" && pin == "111") {
