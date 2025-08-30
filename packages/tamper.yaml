@@ -4,7 +4,7 @@ binary_sensor:
     name: "${friendly_name} Tamper Switch"
     device_class: tamper
     pin:
-      number: GPIO35
+      number: GPIO36
       mode: INPUT
       inverted: true
     filters:
