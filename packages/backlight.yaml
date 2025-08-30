@@ -37,7 +37,7 @@ light:
     name: "Backlight"
     chipset: ws2812
     rgb_order: GRB
-    pin: GPIO5
+    pin: GPIO4
     num_leds: 5
     restore_mode: RESTORE_DEFAULT_OFF
     default_transition_length: 0.5s
