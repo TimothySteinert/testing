@@ -9,7 +9,12 @@ substitutions:
   
   # Exposes the MMWAVE sensor to HA for automations
   mmwave_internal: "true"   # Set to "false" if you want it exposed to HA
-  api_key: "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" #API encryption key. Change from Default
+
+  # API encryption key. Encrypted API package below must be enabled for this key to work.
+  api_key: "xxx" #API encryption key. Change from Default
+
+  # Wifi SSID and Password. Connectivity package below must be set to wifi.yaml or static_wifi.yaml
+  # Can be left as "xxx" if using ethernet or removed entirely.
   wifi_ssid: "xxx"
   wifi_password: "xxx"
 
@@ -47,12 +52,20 @@ packages:
       ####
       # CORE
       # This package is required and sets up core features.
-      - packages/core-esp32.yaml
+      - packages/core/core-esp32.yaml
+
+      ####
+      # API
+      # One of these packages is required! API is enabled by default without encryption.
+      # To enable encryption comment out api.yaml and uncomment api-encryption.yaml.
+      # Ensure API key is set in subsitutions above.
+      - packages/core/api.yaml
+      # - packages/core/api-encryption.yaml
 
       ####
       # WEB UI
       # This package is optional and sets up the web ui.
-      - packages/webui.yaml
+      - packages/core/web-ui.yaml
 
       ####
       # CONNECTIVITY
@@ -69,29 +82,41 @@ packages:
       - packages/mmwave.yaml
 
       ####
-      # HEXAONE STATE TRACKING
-      # This package is required. It tracks the alarm state via HexaOne Keypad HACS integration.
-      - packages/hexaone_state.yaml
-
-      ####
-      # UART
-      - packages/uart_tx.yaml
-      - packages/uart_rx.yaml
+      # Alarm Control
       - packages/alarm_ctrl.yaml
-
-
 
       ####
       # BACKLIGHT
       - packages/backlight.yaml
+
+
+####
+# Custom Handler
+# When "custom_mode" subsitution is set to "custom"
+# The prefix (3 digits before pressing the custom key on the keypad)
+# and pin (up to 8 digits after pressing the custom key and before the enter key)
+# are parsed to this handler here. We can use these as we please for controlling automations.
+# In this example i used the prefix 1 and code 111 to turn on the keypad backlight.
+# You could also just use 111 to turn it on and 112 to turn it off for example.
+# Or prefix 0 code 111 to turn it off, prefix 1 code 111 to turn it on.
+# Can be used for any automations in HA.
 
 script:
   - id: custom_handler
     parameters:
       pin: string
       prefix: string
-    then:
-      - lambda: |-
-          ESP_LOGI("custom_handler", "Custom action triggered. Prefix=%s, PIN=%s",
-            prefix.c_str(), pin.c_str());
-      # Add user custom logic here
+#    then:
+#      - lambda: |-
+# Example: if the prefix is 1 and the pincode is 111. Call "turn_on_backlight".
+#          if (prefix == "1" && pin == "111") {
+#            id(turn_on_backlight).execute();
+#          }
+
+# Example "Turn on backlight"
+#  - id: turn_on_backlight
+#    then:
+#      - homeassistant.service:
+#          service: light.turn_on
+#          data:
+#            entity_id: light.hexaone_k1_keypad_xxx_backlight
