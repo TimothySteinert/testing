@@ -1,3 +1,7 @@
+substitutions:
+  led_id: led_default
+  led_name: LED Default
+
 light:
   - platform: rgb
     id: ${led_id}
