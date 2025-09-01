@@ -1,18 +1,23 @@
 light:
-  - platform: template
+  - platform: rgb
     id: ${led_id}
+    name: "${led_id}"
+    red: ${led_id}_red
+    green: ${led_id}_green
+    blue: ${led_id}_blue
+    restore_mode: ALWAYS_OFF
     effects:
       - lambda:
-          name: ${flash_name}
-          update_interval: ${flash_interval}
+          name: HexaOne Flash
+          update_interval: 500ms
           lambda: |-
             static bool on = false;
 
             if (initial_run) {
               id(${led_id}).turn_on()
-                .set_rgb(${flash_r}, ${flash_g}, ${flash_b})
+                .set_rgb(1.0, 0.0, 0.0)
                 .set_brightness(1.0f)
-                .set_transition_length(0)
+                .set_transition_length(0)  // no fade on first frame
                 .perform();
               on = true;
               return;
@@ -21,13 +26,13 @@ light:
             if (on) {
               id(${led_id}).turn_on()
                 .set_brightness(0.0f)
-                .set_transition_length(${flash_trans})
+                .set_transition_length(50)
                 .perform();
             } else {
               id(${led_id}).turn_on()
-                .set_rgb(${flash_r}, ${flash_g}, ${flash_b})
+                .set_rgb(1.0, 0.0, 0.0)
                 .set_brightness(1.0f)
-                .set_transition_length(${flash_trans})
+                .set_transition_length(50)
                 .perform();
             }
 
