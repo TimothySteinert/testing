@@ -13,7 +13,7 @@ light:
     effects:
       - lambda:
           name: Flash Sync
-          update_interval: 200ms   # checks global state regularly
+          update_interval: 50ms   # checks global state regularly
           lambda: |-
             if (initial_run) {
               id(${led_id}).turn_on()
