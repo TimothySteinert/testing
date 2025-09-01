@@ -1,3 +1,4 @@
+packages:
       - path: packages/flash_effect.yaml
         vars:
           led_id: status_led
