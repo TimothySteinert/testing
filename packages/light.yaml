@@ -1,0 +1,20 @@
+      - path: packages/flash_effect.yaml
+        vars:
+          led_id: status_led
+          led_name: Status LED
+      - path: packages/flash_effect.yaml
+        vars:
+          led_id: away_led
+          led_name: Away LED
+      - path: packages/flash_effect.yaml
+        vars:
+          led_id: home_led
+          led_name: Home LED
+      - path: packages/flash_effect.yaml
+        vars:
+          led_id: disarm_led
+          led_name: Disarm LED
+      - path: packages/flash_effect.yaml
+        vars:
+          led_id: custom_led
+          led_name: Custom LED
