@@ -1,15 +1,3 @@
-globals:
-  - id: flash_state
-    type: bool
-    restore_value: no
-    initial_value: 'false'
-
-interval:
-  - interval: 500ms
-    then:
-      - lambda: |-
-          id(flash_state) = !id(flash_state);
-
 substitutions:
   led_id: led_default
   led_name: LED Default
