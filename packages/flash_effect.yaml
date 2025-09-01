@@ -1,0 +1,30 @@
+lambda:
+  name: Flash Effect
+  update_interval: ${flash_interval}
+  lambda: |-
+    static bool on = false;
+
+    if (initial_run) {
+      id(${led_id}).turn_on()
+        .set_rgb(${flash_r}, ${flash_g}, ${flash_b})
+        .set_brightness(1.0f)
+        .set_transition_length(0)
+        .perform();
+      on = true;
+      return;
+    }
+
+    if (on) {
+      id(${led_id}).turn_on()
+        .set_brightness(0.0f)
+        .set_transition_length(${flash_trans})
+        .perform();
+    } else {
+      id(${led_id}).turn_on()
+        .set_rgb(${flash_r}, ${flash_g}, ${flash_b})
+        .set_brightness(1.0f)
+        .set_transition_length(${flash_trans})
+        .perform();
+    }
+
+    on = !on;
