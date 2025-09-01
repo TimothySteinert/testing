@@ -1,8 +1,4 @@
 packages:
-  remote_package:
-    url: https://github.com/TimothySteinert/testing
-    ref: main
-    refresh: 0s
     files:
       - path: packages/flash_effect.yaml
         vars:
