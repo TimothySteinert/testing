@@ -1,5 +1,5 @@
 lambda:
-  name: Flash Effect
+  name: ${flash_name}
   update_interval: ${flash_interval}
   lambda: |-
     static bool on = false;
