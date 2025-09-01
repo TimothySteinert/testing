@@ -1,7 +1,7 @@
 light:
   - platform: rgb
     id: ${led_id}
-    name: "${led_id}"
+    name: "${led_name}"
     red: ${led_id}_red
     green: ${led_id}_green
     blue: ${led_id}_blue
@@ -17,7 +17,7 @@ light:
               id(${led_id}).turn_on()
                 .set_rgb(1.0, 0.0, 0.0)
                 .set_brightness(1.0f)
-                .set_transition_length(0)  // no fade on first frame
+                .set_transition_length(0)
                 .perform();
               on = true;
               return;
