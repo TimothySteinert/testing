@@ -3,13 +3,6 @@ esphome:
   friendly_name: K1 Keypad
   name_add_mac_suffix: true
 
-substitutions:
-
-  mmwave_internal: true
-  automatic_backlight: "true"
-  backlight_timeout: "60"
-
-
 packages:
   remote_package:
     url: https://github.com/TimothySteinert/testing
@@ -17,15 +10,10 @@ packages:
     refresh: 0s
     files:
       #####
-      # CORE SETTINGS
-      # This package is required and sets up core features.
-      - path: packages/core/core-esp32.yaml
-      #####
-
-      #####
       # REQUIRED PACKAGES
       # These packages are required. They do not contain any user configurable settings.
-      - path: packages/tamper.yaml
+      - path: packages/core/core-esp32.yaml
+      - path: packages/input/tamper.yaml
       #####
 
       #####
@@ -58,24 +46,22 @@ packages:
 
       #####
       # MMWAVE SETTINGS
-      # Modes available: NONE, ERROR, WARN, INFO, DEBUG, VERBOSE, VERY_VERBOSE
-      - path: packages/core/logger.yaml
+      - path: packages/input/mmwave.yaml
         vars:
-          logger_level: NONE
+          mmwave_hidden_ha: "true"
       #####
 
       #####
       # BACKLIGHT SETTINGS
-      # Modes available: NONE, ERROR, WARN, INFO, DEBUG, VERBOSE, VERY_VERBOSE
-      - path: packages/core/logger.yaml
+      - path: packages/lights/backlight.yaml
         vars:
-          logger_level: NONE
+          default_automatic_backlight: "true"
+          default_backlight_timeout: "60"
       #####
 
-
-
-      # Tamper Switch
-    - packages/mmwave.yaml
-    - packages/backlight.yaml
-
+#####
+# API SETTINGS
 api:
+#  encryption:
+#    key: "YOUR_ENCRYPTION_KEY_HERE"
+#####
