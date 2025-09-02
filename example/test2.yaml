@@ -30,7 +30,7 @@ ota:
 
 # This should point to the public location of this yaml file
 dashboard_import:
-  package_import_url: github://TimothySteinert/testing/examples/test.yaml@dev
+  package_import_url: github://TimothySteinert/testing/example/test2.yaml@dev
   import_full_config: true
 
 # Wi-Fi provisioning fallback
