@@ -12,6 +12,8 @@ esphome:
         - text_sensor.template.publish:
             id: project_version
             state: !lambda return ESPHOME_PROJECT_VERSION;
+preferences:
+  flash_write_interval: 0s
 
 esp32:
   board: wt32-eth01
