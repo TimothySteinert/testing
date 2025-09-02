@@ -1,12 +1,12 @@
 substitutions:
-  automatic_backlight: "true"
-  backlight_timeout: "60"
+  default_automatic_backlight: "true"
+  default_backlight_timeout: "60"
 
 globals:
   - id: g_automatic_backlight
     type: bool
     restore_value: true
-    initial_value: ${automatic_backlight}
+    initial_value: ${default_automatic_backlight}
 
 
 switch:
@@ -39,7 +39,7 @@ number:
     max_value: 600
     step: 1
     restore_value: true
-    initial_value: ${backlight_timeout}
+    initial_value: ${default_backlight_timeout}
     optimistic: true
 
 
