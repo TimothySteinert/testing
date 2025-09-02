@@ -1,9 +1,12 @@
+substitutions:
+  mmwave_hidden_ha: "true"
+
 binary_sensor:
   - platform: gpio
     id: mmwave_sensor
     name: "mmWave Sensor"
     device_class: motion
-    internal: ${mmwave_internal}
+    internal: ${mmwave_hidden_ha}
     pin:
       number: GPIO39
       mode: INPUT
