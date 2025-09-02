@@ -1,4 +1,7 @@
 esphome:
+  project:
+    name: hexaone.k1keypad
+    version: '0.1'
   min_version: "2025.7.0" 
   on_boot:
     - priority: 800.0
