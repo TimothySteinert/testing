@@ -1,5 +1,4 @@
 esphome:
-  name_add_mac_suffix: true
   project:
     name: hexaone.k1keypad
     version: '0.1'
