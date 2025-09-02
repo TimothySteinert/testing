@@ -1,0 +1,65 @@
+globals:
+  - id: g_automatic_backlight
+    type: bool
+    restore_value: true
+    initial_value: ${automatic_backlight}
+
+
+switch:
+  - platform: template
+    name: "Automatic Backlight"
+    id: automatic_backlight_switch
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
+    lambda: |-
+      return id(g_automatic_backlight);
+    turn_on_action:
+      - globals.set:
+          id: g_automatic_backlight
+          value: 'true'
+      - if:
+          condition:
+            light.is_on: backlight_light
+          then:
+            - script.execute: auto_backlight_timer
+    turn_off_action:
+      - globals.set:
+          id: g_automatic_backlight
+          value: 'false'
+          
+number:
+  - platform: template
+    name: "Backlight Timeout"
+    id: backlight_timeout_num
+    min_value: 0
+    max_value: 600
+    step: 1
+    restore_value: true
+    initial_value: ${backlight_timeout}
+    optimistic: true
+
+
+light:
+  - platform: esp32_rmt_led_strip
+    id: backlight_light
+    name: "Backlight"
+    chipset: ws2812
+    rgb_order: GRB
+    pin: GPIO4
+    num_leds: 5
+    restore_mode: RESTORE_DEFAULT_OFF
+    default_transition_length: 0.5s
+    gamma_correct: 2.8
+    on_turn_on:
+      - if:
+          condition:
+            lambda: 'return id(g_automatic_backlight);'
+          then:
+            - script.execute: auto_backlight_timer
+
+script:
+  - id: auto_backlight_timer
+    mode: restart
+    then:
+      - delay: !lambda "return (int)id(backlight_timeout_num).state * 1000;"
+      - light.turn_off: backlight_light
