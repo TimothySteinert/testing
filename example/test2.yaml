@@ -8,7 +8,7 @@ esphome:
   name_add_mac_suffix: true
   project:
     name: hexaone.k1keypad
-    version: "0.1"
+    version: '0.1'
 
 packages:
   remote_package:
@@ -17,9 +17,9 @@ packages:
     refresh: 0s
     files:
       # Core features & diagnostics
-      - packages/core/core-esp32.yaml
-
-# Core already includes logger, api, ota, sensors, text_sensors
+    - packages/core/core-esp32.yaml
+      # Wifi
+    - packages/connectivity/wifi.yaml
 
 api:
 
@@ -27,14 +27,6 @@ logger:
 
 web_server:
   port: 80
-
-# Connectivity / provisioning (bootstrap only, no secrets)
-wifi:
-  ap:
-
-captive_portal:
-
-improv_serial:
 
 dashboard_import:
   package_import_url: github://TimothySteinert/testing/example/test2.yaml@dev2
