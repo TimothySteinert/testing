@@ -1,16 +1,9 @@
-substitutions:
-  wifi_ssid: "MyWiFi"
-  wifi_password: "SuperSecret123"
-
 wifi:
-  ssid: "${wifi_ssid}"
-  password: "${wifi_password}"
-
   ap:
 
-improv_serial:
-
 captive_portal:
+
+improv_serial:
 
 sensor:
   - platform: wifi_signal
