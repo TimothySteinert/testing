@@ -9,7 +9,11 @@ switch:
     name: "Automatic Backlight"
     id: automatic_backlight_switch
     lambda: |-
-      return id(g_automatic_backlight);
+      if (id(g_automatic_backlight)) {
+        return true;
+      } else {
+        return false;
+      }
     turn_on_action:
       - globals.set:
           id: g_automatic_backlight
@@ -23,6 +27,7 @@ switch:
       - globals.set:
           id: g_automatic_backlight
           value: 'false'
+
 
 number:
   - platform: template
