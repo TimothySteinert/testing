@@ -1,6 +1,7 @@
 wifi:
   ssid: "${wifi_ssid}"
   password: "${wifi_password}"
+  use_address: hexaone-k1-keypad-09ca0c
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
 
