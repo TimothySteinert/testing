@@ -3,6 +3,14 @@ esphome:
   friendly_name: K1 Keypad
   name_add_mac_suffix: true
 
+substitutions:
+  #####
+  # LOGGER
+  # Modes available: NONE, ERROR, WARN, INFO, DEBUG, VERBOSE, VERY_VERBOSE
+  logger_level: "NONE"
+  #####
+
+
 packages:
   remote_package:
     url: https://github.com/TimothySteinert/testing
@@ -11,12 +19,12 @@ packages:
     files:
       # Core features & diagnostics
     - packages/core/core-esp32.yaml
+      #Logger
+    - packages/core/logger.yaml
       # Wifi
     - packages/connectivity/wifi.yaml
 
 api:
-
-logger:
 
 web_server:
   port: 80
