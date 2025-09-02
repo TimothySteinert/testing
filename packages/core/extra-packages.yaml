@@ -1,1 +1,2 @@
-  - path: packages/tamper.yaml
+    files:
+      - path: packages/tamper.yaml
