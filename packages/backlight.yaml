@@ -4,17 +4,15 @@ globals:
     restore_value: true
     initial_value: ${automatic_backlight}
 
+
 switch:
   - platform: template
     name: "Automatic Backlight"
     id: automatic_backlight_switch
-    restore_mode: RESTORE_DEFAULT_ON
+    restore_mode: RESTORE_DEFAULT_OFF
+    optimistic: true
     lambda: |-
-      if (id(g_automatic_backlight)) {
-        return true;
-      } else {
-        return false;
-      }
+      return id(g_automatic_backlight);
     turn_on_action:
       - globals.set:
           id: g_automatic_backlight
@@ -28,8 +26,7 @@ switch:
       - globals.set:
           id: g_automatic_backlight
           value: 'false'
-
-
+          
 number:
   - platform: template
     name: "Backlight Timeout"
@@ -40,6 +37,7 @@ number:
     restore_value: true
     initial_value: ${backlight_timeout}
     optimistic: true
+
 
 light:
   - platform: esp32_rmt_led_strip
