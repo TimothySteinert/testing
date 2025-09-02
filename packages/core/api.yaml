@@ -1,1 +1,14 @@
-api:
+substitutions:
+  encryption_enabled: "false"
+  api_key: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX="
+
+# Use conditional config
+<<: !include
+  - if:
+      condition: "return ${encryption_enabled} == \"true\";"
+      then:
+        - api:
+            encryption:
+              key: ${api_key}
+      else:
+        - api:
