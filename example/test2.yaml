@@ -1,7 +1,26 @@
+#####
+# HexaOne K1 Keypad © 2025 HexaOne
+# Licensed under the PolyForm Noncommercial License 1.0.0
+#####
 esphome:
   name: hexaone-k1-keypad
   friendly_name: K1 Keypad
   name_add_mac_suffix: true
+
+
+#####
+# GLOBAL SETTINGS
+#
+# This configuration is modular and built from packages.
+# - Each package only consumes the vars it needs; unused vars are ignored.
+# - To enable/disable features, comment or uncomment package paths.
+# - To adjust behaviour, edit the vars under each package include.
+#
+# Example:
+# Connectivity → static_ip vars only apply to static_ethernet.yaml; ignored with DHCP.
+# mmWave       → mmwave_hidden_ha controls whether the sensor is exposed to HA.
+# Logger       → logger_level sets log verbosity.
+#####
 
 packages:
   remote_package:
@@ -13,18 +32,22 @@ packages:
       # REQUIRED PACKAGES
       # These packages are required. They do not contain any user configurable settings.
       - path: packages/core/core-esp32.yaml
+      - path: packages/lights/backlight.yaml
       - path: packages/input/tamper.yaml
       #####
 
       #####
       # OPTIONAL PACKAGES
-      # These packages are optional. They can be commented in/out to add/remove functionality. They do not contain any user configurable settings.
+      # These packages are optional. They can be commented in/out to add/remove functionality.
+      # They do not contain any user configurable settings.
       - path: packages/core/web-ui.yaml
       #####
 
       #####
       # CONNECTIVITY SETTINGS
-      # 
+      # Vars for static IP will only be utilised for static_ethernet.yaml. They are ignored when using DHCP.
+      # Only one connectivity package should be active at a time.
+      # Uncomment the required package path for your network mode:
       # - path: packages/connectivity/dhcp_ethernet.yaml
       # - path: packages/connectivity/static_ethernet.yaml
       - path: packages/connectivity/wifi.yaml
@@ -44,23 +67,16 @@ packages:
           logger_level: NONE
       #####
 
-      #####
       # MMWAVE SETTINGS
+      # Modes available: "true": mmwave is hidden from HA. "false": mmwave is exposed to HA.
       - path: packages/input/mmwave.yaml
         vars:
           mmwave_hidden_ha: "true"
       #####
 
-      #####
-      # BACKLIGHT SETTINGS
-      - path: packages/lights/backlight.yaml
-        vars:
-          default_automatic_backlight: "true"
-          default_backlight_timeout: "60"
-      #####
-
 #####
 # API SETTINGS
+# Uncomment encryption/key to utilise API encryption.
 api:
 #  encryption:
 #    key: "YOUR_ENCRYPTION_KEY_HERE"
