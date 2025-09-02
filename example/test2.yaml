@@ -10,6 +10,10 @@ substitutions:
   logger_level: "NONE"
   #####
 
+  mmwave_internal: true
+  automatic_backlight: "true"
+  backlight_timeout: "60"
+
 
 packages:
   remote_package:
@@ -25,5 +29,9 @@ packages:
     - packages/core/web-ui.yaml
       # Wifi
     - packages/connectivity/wifi.yaml
+      # Tamper Switch
+    - packages/tamper.yaml
+    - packages/mmwave.yaml
+    - packages/backlight.yaml
 
 api:
