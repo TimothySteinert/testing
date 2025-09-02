@@ -1,2 +1,5 @@
+substitutions:
+  logger_level: NONE
+
 logger:
   level: ${logger_level}
