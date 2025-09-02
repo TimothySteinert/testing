@@ -1,0 +1,56 @@
+substitutions:
+  name: "hexaone-k1-keypad"
+  friendly_name: "K1 Keypad"
+
+esphome:
+  name: "${name}"
+  friendly_name: "${friendly_name}"
+  name_add_mac_suffix: true
+
+  # Project information for dashboard adoption
+  project:
+    name: "hexaone.k1keypad"
+    version: "0.1"
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+    version: recommended
+
+# Logging via serial and API
+logger:
+
+# Required for dashboard adoption
+api:
+
+# Required for OTA updates
+ota:
+  platform: esphome
+
+# This should point to the public location of this yaml file
+dashboard_import:
+  package_import_url: github://TimothySteinert/testing/examples/test.yaml@dev
+  import_full_config: true
+
+# Wi-Fi provisioning fallback
+wifi:
+  # No SSID/password here → user provides during adoption
+  ap:
+
+# Provisioning helpers
+captive_portal:
+
+improv_serial:
+
+# Example diagnostics
+sensor:
+  - platform: uptime
+    name: "Uptime"
+    entity_category: diagnostic
+
+text_sensor:
+  - platform: version
+    name: "ESPHome Version"
+    hide_timestamp: true
+    entity_category: diagnostic
