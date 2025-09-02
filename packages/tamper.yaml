@@ -1,7 +1,7 @@
 binary_sensor:
   - platform: gpio
     id: tamper_switch
-    name: "${friendly_name} Tamper Switch"
+    name: "Tamper Switch"
     device_class: tamper
     pin:
       number: GPIO36
