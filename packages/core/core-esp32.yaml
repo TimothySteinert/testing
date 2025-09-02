@@ -44,6 +44,8 @@ ota:
   - platform: esphome
     id: hexaone_ota
 
+  - platform: web_server
+
 dashboard_import:
   package_import_url: github://TimothySteinert/testing/example/test2.yaml@dev2
   import_full_config: true
