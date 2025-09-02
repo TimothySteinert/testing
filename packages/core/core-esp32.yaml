@@ -1,11 +1,5 @@
 esphome:
-  name: ${name}
-  friendly_name: ${friendly_name}
-  name_add_mac_suffix: true
-  min_version: "2025.7.0"
-  project:
-    name: $project_name
-    version: $project_version  
+  min_version: "2025.7.0" 
   on_boot:
     - priority: 800.0
       then:
