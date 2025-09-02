@@ -8,8 +8,8 @@ esphome:
   name_add_mac_suffix: false
   min_version: "2025.7.0"
   project:
-    name: hexaone.k1keypad
-    version: "0.1"
+    name: $project_name
+    version: $project_version  
   on_boot:
     - priority: 800.0
       then:
@@ -55,5 +55,5 @@ ota:
     id: hexaone_ota
 
 dashboard_import:
-  package_import_url: github://TimothySteinert/testing/examples/test.yaml@dev
+  package_import_url: github://TimothySteinert/testing/example/test2.yaml@dev2
   import_full_config: true
