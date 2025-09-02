@@ -1,56 +1,29 @@
 substitutions:
-  name: "hexaone-k1-keypad-09ca0c"
-  friendly_name: "K1 Keypad"
+  name: hexaone-k1-keypad
+  friendly_name: K1 Keypad
+  project_name: hexaone.k1keypad
+  project_version: "0.1"
 
-esphome:
-  name: "${name}"
-  friendly_name: "${friendly_name}"
-  name_add_mac_suffix: true
+packages:
+  remote_package:
+    url: https://github.com/TimothySteinert/testing
+    ref: dev2
+    refresh: 0s
+    files:
+      # Core features & diagnostics
+      - packages/core/core-esp32.yaml
 
-  # Project information for dashboard adoption
-  project:
-    name: "hexaone.k1keypad"
-    version: "0.1"
+# Core already includes logger, api, ota, sensors, text_sensors
 
-esp32:
-  board: esp32dev
-  framework:
-    type: esp-idf
-    version: recommended
-
-# Logging via serial and API
-logger:
-
-# Required for dashboard adoption
-api:
-
-# Required for OTA updates
-ota:
-  platform: esphome
-
-# This should point to the public location of this yaml file
-dashboard_import:
-  package_import_url: github://TimothySteinert/testing/example/test2.yaml@dev
-  import_full_config: true
-
-# Wi-Fi provisioning fallback
+# Connectivity / provisioning (bootstrap only, no secrets)
 wifi:
-  # No SSID/password here → user provides during adoption
   ap:
 
-# Provisioning helpers
 captive_portal:
-
+esp32_improv:
+  authorizer: none
 improv_serial:
 
-# Example diagnostics
-sensor:
-  - platform: uptime
-    name: "Uptime"
-    entity_category: diagnostic
-
-text_sensor:
-  - platform: version
-    name: "ESPHome Version"
-    hide_timestamp: true
-    entity_category: diagnostic
+dashboard_import:
+  package_import_url: github://TimothySteinert/testing/example/test2.yaml@dev2
+  import_full_config: true
