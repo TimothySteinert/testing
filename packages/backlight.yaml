@@ -9,15 +9,15 @@ switch:
     name: "Automatic Backlight"
     id: automatic_backlight_switch
     lambda: |-
-      if (id(g_automatic_backlight)) {
-        return true;
-      } else {
-        return false;
-      }
+      return id(g_automatic_backlight);   // always mirror global
     turn_on_action:
       - globals.set:
           id: g_automatic_backlight
           value: 'true'
+          restore: true
+      - switch.template.publish:          # 🔑 keep HA in sync
+          id: automatic_backlight_switch
+          state: ON
       - if:
           condition:
             light.is_on: backlight_light
@@ -27,6 +27,10 @@ switch:
       - globals.set:
           id: g_automatic_backlight
           value: 'false'
+          restore: true
+      - switch.template.publish:          # 🔑 keep HA in sync
+          id: automatic_backlight_switch
+          state: OFF
 
 
 number:
