@@ -1,122 +1,93 @@
-substitutions:
-  name: hexaone-k1-keypad
-  friendly_name: K1 Keypad
-  project_name: hexaone.k1keypad
-  project_version: "0.1"
-  
-  ####
-  # CONFIGURABLE OPTIONS
-  
-  # Exposes the MMWAVE sensor to HA for automations
-  mmwave_internal: "true"   # Set to "false" if you want it exposed to HA
+#####
+# GLOBAL SETTINGS
+#
+# This configuration uses modular packages with `vars:` and `path:` for user settings.
+# - Each package only consumes the vars it needs; unused vars are safely ignored.
+# - To enable/disable or change a feature, edit the package `path:` and/or its vars.
+#
+# Examples:
+#   • If using Ethernet DHCP → Wi-Fi vars (wifi_ssid, wifi_password) are ignored.
+#   • If using Unencrypted API → api_key is ignored.
+#   • If disabling Web UI → web_ui_port is ignored.
+#
+# Workflow:
+#   1. Define your vars below.
+#   2. Scroll down to PACKAGES and choose the correct path for each feature
+#      (e.g. dhcp_wifi.yaml vs static_wifi.yaml, api-encrypted.yaml vs api-unencrypted.yaml).
+#   3. Adjust vars under that package include if required.
+#####
 
-  # API encryption key. Encrypted API package below must be enabled for this key to work.
-  api_key: "xxx" #API encryption key. Change from Default
 
-  # Wifi SSID and Password. Connectivity package below must be set to wifi.yaml or static_wifi.yaml
-  # Can be left as "xxx" if using ethernet or removed entirely.
-  wifi_ssid: "xxx"
-  wifi_password: "xxx"
-
-  ####
-  # STATIC IP SETTINGS
-  # These values are only used if you select one of the static connectivity packages
-  # (static_wifi.yaml or static_ethernet.yaml).
-  # If you are using DHCP (dhcp_wifi.yaml or dhcp_ethernet.yaml), these can be ignored.
-  static_ip: "192.168.1.150"
-  gateway: "192.168.1.254"
-  subnet: "255.255.255.0"
-  dns1: "192.192.1.254"
-  dns2: "1.1.1.1"
-
-  #BACKLIGHT CONTROL
-  # Backlight timeout in seconds (0–600)
-  backlight_timeout: "60"
-  automatic_backlight: "true"   # "true" = default AUTO, "false" = default MANUAL
-
-  custom_mode: "Night"   # Options: Night, Vacation, Bypass, Custom
-  alarmo_entity: "alarm_control_panel.alarmo"
-
-#### 
-# PACKAGES
-# Each package includes keypad features.
-# Remove or comment out any packages that you do not need or want.
-# If you're developing/installing locally, replace the github package line with the local package include above it.
 packages:
   remote_package:
     url: https://github.com/TimothySteinert/testing
-    ref: main
-    refresh: 5min
+    ref: dev
+    refresh: 0s
     files:
 
-      ####
-      # CORE
-      # This package is required and sets up core features.
-      - packages/core/core-esp32.yaml
-
-      ####
-      # API
-      # One of these packages is required! API is enabled by default without encryption.
-      # To enable encryption comment out api.yaml and uncomment api-encryption.yaml.
-      # Ensure API key is set in subsitutions above.
-      - packages/core/api.yaml
-      # - packages/core/api-encryption.yaml
-
-      ####
-      # WEB UI
-      # This package is optional and sets up the web ui.
-      - packages/core/web-ui.yaml
-
-      ####
-      # CONNECTIVITY
-      # Choose ONE connectivity method below by uncommenting the line:
-      # Wi-Fi (DHCP or Static) OR Ethernet (DHCP or Static)
-      # - packages/connectivity/dhcp_wifi.yaml  # Wi-Fi with DHCP
-      - packages/connectivity/static_wifi.yaml  # Wi-Fi with Static IP
-      # - packages/connectivity/dhcp_ethernet.yaml  # Ethernet with DHCP
-      # - packages/connectivity/static_ethernet.yaml  # Ethernet with Static IP
-
-      ####
-      # INPUT
-      - packages/tamper.yaml
-      - packages/mmwave.yaml
-
-      ####
-      # Alarm Control
-      - packages/alarm_ctrl.yaml
-
-      ####
-      # BACKLIGHT
-      - packages/backlight.yaml
+      #####
+      # CORE SETTINGS
+      #   Name          → Internal ESPHome device name (lowercase, no spaces)
+      #   Friendly Name → Display name shown in Home Assistant
+      #####
+      - path: packages/core/core-esp32.yaml
+        vars:
+          name: hexaone-k1-keypad
+          friendly_name: K1 Keypad
 
 
-####
-# Custom Handler
-# When "custom_mode" subsitution is set to "custom"
-# The prefix (3 digits before pressing the custom key on the keypad)
-# and pin (up to 8 digits after pressing the custom key and before the enter key)
-# are parsed to this handler here. We can use these as we please for controlling automations.
-# In this example i used the prefix 1 and code 111 to turn on the keypad backlight.
-# You could also just use 111 to turn it on and 112 to turn it off for example.
-# Or prefix 0 code 111 to turn it off, prefix 1 code 111 to turn it on.
-# Can be used for any automations in HA.
+      #####
+      # API SETTINGS
+      # Choose the API mode by changing the path below:
+      #   Unencrypted → packages/core/api-unencrypted.yaml
+      #   Encrypted   → packages/core/api-encrypted.yaml
+      #####
+      - path: packages/core/api-unencrypted.yaml
+        vars:
+          api_key: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX="
 
-script:
-  - id: custom_handler
-    parameters:
-      pin: string
-      prefix: string
-    then:
-#      - lambda: |-
-# Example: if the prefix is 1 and the pincode is 111. Call "turn_on_backlight".
-#          if (prefix == "1" && pin == "111") {
-#            id(turn_on_backlight).execute();
-#          }
 
-# Example "Turn on backlight"
-#  - id: turn_on_backlight
-#    then:
-#      - homeassistant.service:
-#          service: light.turn_on
-#          data:
-#            entity_id: light.hexaone_k1_keypad_xxx_backlight
+      #####
+      # LOGGER SETTINGS
+      #
+      # Choose the desired log level by changing `log_level` below.
+      # Options: NONE, ERROR, WARN, INFO, DEBUG, VERBOSE, VERY_VERBOSE
+      #####
+      - path: packages/core/logger.yaml
+        vars:
+          log_level: "VERY_VERBOSE"
+
+
+      #####
+      # WEB UI SETTINGS
+      #
+      # Choose the Web UI mode by changing the path below:
+      #   Enable → packages/core/enable-web-ui.yaml
+      #   Disable → packages/core/disable-web-ui.yaml
+      #####
+      - path: packages/core/enable-web-ui.yaml
+        vars:
+          web_ui_port: "80"
+
+
+      #####
+      # CONNECTIVITY SETTINGS
+      # Choose the connectivity mode by changing the path below:
+      #   Wi-Fi (DHCP)       → packages/connectivity/dhcp_wifi.yaml
+      #   Wi-Fi (Static IP)  → packages/connectivity/static_wifi.yaml
+      #   Ethernet (DHCP)    → packages/connectivity/dhcp_ethernet.yaml
+      #   Ethernet (Static)  → packages/connectivity/static_ethernet.yaml
+      #
+      # Notes:
+      # - Wi-Fi requires wifi_ssid and wifi_password.
+      # - Static modes require static_ip, gateway, subnet, and optionally dns1/dns2.
+      #####
+      - path: packages/connectivity/dhcp_wifi.yaml
+        vars:
+          wifi_ssid: "WiFi SSID"
+          wifi_password: "Wifi Password"
+          static_ip: "192.168.1.100"
+          gateway: "192.168.1.1"
+          subnet: "255.255.255.0"
+          dns1: "192.192.1.1"
+          dns2: "8.8.8.8"
