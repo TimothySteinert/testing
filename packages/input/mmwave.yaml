@@ -1,0 +1,15 @@
+binary_sensor:
+  - platform: gpio
+    id: mmwave_sensor
+    name: "mmWave Sensor"
+    device_class: motion
+    internal: ${mmwave_internal}
+    pin:
+      number: GPIO39
+      mode: INPUT
+    on_press:
+      - if:
+          condition:
+            lambda: 'return id(g_automatic_backlight);'
+          then:
+            - light.turn_on: backlight_light
