@@ -4,11 +4,6 @@ esphome:
   name_add_mac_suffix: true
 
 substitutions:
-  #####
-  # LOGGER
-  # Modes available: NONE, ERROR, WARN, INFO, DEBUG, VERBOSE, VERY_VERBOSE
-  logger_level: "NONE"
-  #####
 
   mmwave_internal: true
   automatic_backlight: "true"
@@ -21,16 +16,65 @@ packages:
     ref: dev2
     refresh: 0s
     files:
-      # Core features & diagnostics
-    - packages/core/core-esp32.yaml
-      #Logger
-    - packages/core/logger.yaml
-      # Web UI
-    - packages/core/web-ui.yaml
-      # Wifi
-    - packages/connectivity/wifi.yaml
+      #####
+      # CORE SETTINGS
+      # This package is required and sets up core features.
+      - path: packages/core/core-esp32.yaml
+      #####
+
+      #####
+      # REQUIRED PACKAGES
+      # These packages are required. They do not contain any user configurable settings.
+      - path: packages/tamper.yaml
+      #####
+
+      #####
+      # OPTIONAL PACKAGES
+      # These packages are optional. They can be commented in/out to add/remove functionality. They do not contain any user configurable settings.
+      - path: packages/core/web-ui.yaml
+      #####
+
+      #####
+      # CONNECTIVITY SETTINGS
+      # 
+      # - path: packages/connectivity/dhcp_ethernet.yaml
+      # - path: packages/connectivity/static_ethernet.yaml
+      - path: packages/connectivity/wifi.yaml
+        vars:
+          static_ip: "192.168.1.100"
+          gateway: "192.168.1.1"
+          subnet: "255.255.255.0"
+          dns1: "192.192.1.1"
+          dns2: "8.8.8.8"
+      #####
+
+      #####
+      # LOGGER SETTINGS
+      # Modes available: NONE, ERROR, WARN, INFO, DEBUG, VERBOSE, VERY_VERBOSE
+      - path: packages/core/logger.yaml
+        vars:
+          logger_level: NONE
+      #####
+
+      #####
+      # MMWAVE SETTINGS
+      # Modes available: NONE, ERROR, WARN, INFO, DEBUG, VERBOSE, VERY_VERBOSE
+      - path: packages/core/logger.yaml
+        vars:
+          logger_level: NONE
+      #####
+
+      #####
+      # BACKLIGHT SETTINGS
+      # Modes available: NONE, ERROR, WARN, INFO, DEBUG, VERBOSE, VERY_VERBOSE
+      - path: packages/core/logger.yaml
+        vars:
+          logger_level: NONE
+      #####
+
+
+
       # Tamper Switch
-    - packages/tamper.yaml
     - packages/mmwave.yaml
     - packages/backlight.yaml
 
