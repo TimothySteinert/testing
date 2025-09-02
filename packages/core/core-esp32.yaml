@@ -53,3 +53,7 @@ sensor:
 ota:
   - platform: esphome
     id: hexaone_ota
+
+dashboard_import:
+  package_import_url: github://TimothySteinert/testing/examples/test.yaml@dev
+  import_full_config: true
