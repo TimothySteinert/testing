@@ -1,0 +1,8 @@
+packages:
+  remote_package:
+    url: https://github.com/TimothySteinert/testing
+    ref: dev
+    refresh: 0s
+    
+    files:
+      - path: packages/tamper.yaml
