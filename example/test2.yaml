@@ -1,6 +1,7 @@
 esphome:
   name: hexaone-k1-keypad
   friendly_name: K1 Keypad
+  name_add_mac_suffix: true
 
 packages:
   remote_package:
@@ -19,7 +20,3 @@ logger:
 
 web_server:
   port: 80
-
-dashboard_import:
-  package_import_url: github://TimothySteinert/testing/example/test2.yaml@dev2
-  import_full_config: true
