@@ -1,5 +1,5 @@
 substitutions:
-  name: "hexaone-k1-keypad"
+  name: "hexaone-k1-keypad-09ca0c"
   friendly_name: "K1 Keypad"
 
 esphome:
