@@ -1,11 +1,15 @@
+substitutions:
+  name: hexaone-k1-keypad
+  friendly_name: K1 Keypad
+
 esphome:
-  name: $name
-  friendly_name: $friendly_name
+  name: ${name}
+  friendly_name: ${friendly_name}
   name_add_mac_suffix: true
-  min_version: '2025.7.0'
+  min_version: "2025.7.0"
   project:
-    name: $project_name
-    version: $project_version
+    name: hexaone.k1keypad
+    version: "0.1"
   on_boot:
     - priority: 800.0
       then:
@@ -16,14 +20,11 @@ esphome:
             id: project_version
             state: !lambda return ESPHOME_PROJECT_VERSION;
 
-esp32:  
+esp32:
   board: wt32-eth01
   framework:
     type: esp-idf
     version: recommended
-
-logger:
-  #level: NONE
 
 text_sensor:
   - platform: template
@@ -31,10 +32,12 @@ text_sensor:
     id: device_id
     entity_category: diagnostic
     update_interval: never
+
   - platform: version
     id: esphome_version
     name: ESPHome Version
     hide_timestamp: true
+
   - platform: template
     name: Project version
     id: project_version
@@ -47,10 +50,6 @@ sensor:
     id: uptime_sensor
     entity_category: diagnostic
 
-#### 
-# OTA UPDATES
-# Enables over-the-air updates
-# more: https://esphome.io/components/ota.html
 ota:
   - platform: esphome
     id: hexaone_ota
