@@ -1,3 +1,7 @@
+substitutions:
+  name: hexaone-k1-keypad
+  friendly_name: K1 Keypad
+
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
