@@ -19,6 +19,7 @@ switch:
   - platform: template
     name: "Automatic Backlight"
     id: automatic_backlight_switch
+    restore_mode: RESTORE_DEFAULT_ON
     lambda: |-
       if (id(g_automatic_backlight)) {
         return true;
