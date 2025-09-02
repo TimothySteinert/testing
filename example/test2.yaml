@@ -21,10 +21,9 @@ packages:
     - packages/core/core-esp32.yaml
       #Logger
     - packages/core/logger.yaml
+      # Web UI
+    - packages/core/web-ui.yaml
       # Wifi
     - packages/connectivity/wifi.yaml
 
 api:
-
-web_server:
-  port: 80
