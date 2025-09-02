@@ -1,0 +1,6 @@
+substitutions:
+  api_key: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX="
+
+api:
+  encryption:
+    key: ${api_key}
