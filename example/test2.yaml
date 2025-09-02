@@ -1,8 +1,14 @@
 substitutions:
   name: hexaone-k1-keypad
   friendly_name: K1 Keypad
-  project_name: hexaone.k1keypad
-  project_version: "0.1"
+
+esphome:
+  name: ${name}
+  friendly_name: ${friendly_name}
+  name_add_mac_suffix: true
+  project:
+    name: hexaone.k1keypad
+    version: "0.1"
 
 packages:
   remote_package:
