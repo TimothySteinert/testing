@@ -1,0 +1,5 @@
+substitutions:
+  log_level: "NONE"
+
+logger:
+  level: ${log_level}
