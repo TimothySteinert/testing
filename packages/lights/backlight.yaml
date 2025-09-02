@@ -1,3 +1,7 @@
+substitutions:
+  automatic_backlight: "true"
+  backlight_timeout: "60"
+
 globals:
   - id: g_automatic_backlight
     type: bool
