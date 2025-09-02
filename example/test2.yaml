@@ -1,9 +1,11 @@
 esphome:
-  name: hexaone-k1-keypad
-  friendly_name: K1 Keypad
+  name: ${name}
+  friendly_name: ${friendly_name}
   name_add_mac_suffix: true
 
 substitutions:
+  name: hexaone-k1-keypad
+  friendly_name: K1 Keypad
   #####
   # LOGGER
   # Modes available: NONE, ERROR, WARN, INFO, DEBUG, VERBOSE, VERY_VERBOSE
