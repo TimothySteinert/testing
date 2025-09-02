@@ -15,13 +15,19 @@ packages:
 
 # Core already includes logger, api, ota, sensors, text_sensors
 
+api:
+
+logger:
+
 # Connectivity / provisioning (bootstrap only, no secrets)
 wifi:
   ap:
 
 captive_portal:
+
 esp32_improv:
   authorizer: none
+
 improv_serial:
 
 dashboard_import:
