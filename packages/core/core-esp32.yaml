@@ -7,7 +7,7 @@ esphome:
     - priority: 800.0
       then:
         - text_sensor.template.publish:
-            id: device_id
+            id: mac_id
             state: !lambda return get_mac_address();
         - text_sensor.template.publish:
             id: project_version
@@ -21,8 +21,8 @@ esp32:
 
 text_sensor:
   - platform: template
-    name: Device ID
-    id: device_id
+    name: Mac Address
+    id: mac_id
     entity_category: diagnostic
     update_interval: never
 
