@@ -1,0 +1,5 @@
+substitutions:
+  web_ui_port: "80"
+
+web_server:
+  port: ${web_ui_port}
