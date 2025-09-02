@@ -1,7 +1,7 @@
 binary_sensor:
   - platform: gpio
     id: mmwave_sensor
-    name: "${friendly_name} mmWave Sensor"
+    name: "mmWave Sensor"
     device_class: motion
     internal: ${mmwave_internal}
     pin:
