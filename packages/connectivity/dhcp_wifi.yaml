@@ -1,3 +1,7 @@
+substitutions:
+  wifi_ssid: "MyWiFi"
+  wifi_password: "SuperSecret123"
+
 wifi:
   ssid: "${wifi_ssid}"
   password: "${wifi_password}"
@@ -29,5 +33,3 @@ text_sensor:
     ip_address:
       name: IP Address
       entity_category: diagnostic
-  
-    
