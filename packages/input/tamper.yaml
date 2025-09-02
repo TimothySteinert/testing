@@ -1,0 +1,11 @@
+binary_sensor:
+  - platform: gpio
+    id: tamper_switch
+    name: "Tamper Switch"
+    device_class: tamper
+    pin:
+      number: GPIO36
+      mode: INPUT
+      inverted: true
+    filters:
+      - delayed_on_off: 50ms
