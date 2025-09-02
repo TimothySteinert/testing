@@ -12,8 +12,6 @@ esphome:
         - text_sensor.template.publish:
             id: project_version
             state: !lambda return ESPHOME_PROJECT_VERSION;
-preferences:
-  flash_write_interval: 0s
 
 esp32:
   board: wt32-eth01
@@ -23,7 +21,7 @@ esp32:
 
 text_sensor:
   - platform: template
-    name: Mac Address
+    name: MAC Address
     id: mac_id
     entity_category: diagnostic
     update_interval: never
