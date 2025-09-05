@@ -1,7 +1,4 @@
-#####
-# HexaOne K1 Keypad © 2025 HexaOne
-# Licensed under the PolyForm Noncommercial License 1.0.0
-#####
+# Copyright (c) 2025 HexaOne – Licensed under the MIT License – See LICENSE.md
 esphome:
   name: hexaone-k1-keypad
   friendly_name: K1 Keypad
@@ -24,14 +21,14 @@ esphome:
 
 packages:
   remote_package:
-    url: https://github.com/TimothySteinert/testing
-    ref: dev2
+    url: https://!secret github_token@github.com/Hexa-One/K1-Keypad.git
+    ref: main
     refresh: 0s
     files:
       #####
       # REQUIRED PACKAGES
       # These packages are required. They do not contain any user configurable settings.
-      - path: packages/core/core-esp32.yaml
+      - path: packages/core/esp32.yaml
       - path: packages/lights/backlight.yaml
       - path: packages/input/tamper.yaml
       #####
@@ -60,6 +57,17 @@ packages:
       #####
 
       #####
+      # API SETTINGS
+      # Vars for API encryption key will only be utilised for encrypted-api.yaml. They are ignored when using unencrypted.
+      # Only one API package should be active at a time.
+      # Uncomment the required package path for your API mode:
+      - path: packages/core/unencrypted-api.yaml
+      # - path: packages/core/encrypted-api.yaml
+        vars:
+          api_key: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx="
+      #####
+
+      #####
       # LOGGER SETTINGS
       # Modes available: NONE, ERROR, WARN, INFO, DEBUG, VERBOSE, VERY_VERBOSE
       - path: packages/core/logger.yaml
@@ -74,10 +82,6 @@ packages:
           mmwave_hidden_ha: "true"
       #####
 
-#####
-# API SETTINGS
-# Uncomment encryption/key to utilise API encryption.
-api:
-#  encryption:
-#    key: "YOUR_ENCRYPTION_KEY_HERE"
-#####
+dashboard_import:
+  package_import_url: github://TimothySteinert/testing/example/test2.yaml@dev2
+  import_full_config: true
